@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    <defs>
+        <clipPath id="helmet">
+            <path d="M4 21C4.5 12 9.5 6 16 6s11.5 6 12 15l1 .4c.6 1.6-.3 2.6-2 2.6H5c-1.7 0-2.6-1-2-2.6z"/>
+        </clipPath>
+    </defs>
+    <rect width="32" height="32" rx="7" fill="#1d2024"/>
+    <g transform="translate(16 16.4) scale(1.1) translate(-16 -15)">
+        <g clip-path="url(#helmet)">
+            <rect width="32" height="32" fill="#c9a86a"/>
+            <path d="M6 12c3-2 6 0 8 2s1 5-2 6-7 2-8-1 0-5 2-7z" fill="#6b7440"/>
+            <path d="M17 7c3-1 6 1 7 3s-1 4-4 4-5-1-5-3 0-3 2-4z" fill="#6b7440"/>
+            <path d="M19 16c2-1 5 0 6 2s-1 3-3 3-4 0-4-2 0-2 1-3z" fill="#5a4630"/>
+            <path d="M11 9c1-1 3-1 3 0s-1 2-2 2-2-1-1-2z" fill="#5a4630"/>
+        </g>
+        <path d="M3.5 21.4h25" stroke="#15171a" stroke-width="1.2" opacity=".55"/>
+    </g>
+</svg>
