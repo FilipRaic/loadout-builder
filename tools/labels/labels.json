@@ -1,19 +1,19 @@
 {
- "labels": [
-  "bg",
-  "fixed",
-  "helmet",
-  "face",
-  "shirt",
-  "carrier",
-  "belt",
-  "pants",
-  "kneepads",
-  "gloves",
-  "boots",
-  "headset",
-  "holster",
-  "hippouch",
-  "chestpouch"
- ]
+  "labels": [
+    "bg",
+    "fixed",
+    "helmet",
+    "face",
+    "shirt",
+    "carrier",
+    "belt",
+    "pants",
+    "kneepads",
+    "gloves",
+    "boots",
+    "headset",
+    "holster",
+    "hippouch",
+    "chestpouch"
+  ]
 }

@@ -1,215 +1,215 @@
 [
- {
-  "id": "woodland_m81",
-  "name": "Woodland (M81)",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "woodland_m81.jpg"
- },
- {
-  "id": "multicam",
-  "name": "MultiCam",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "multicam.jpg"
- },
- {
-  "id": "desert_dcu",
-  "name": "Desert 3-colour (DCU)",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "desert_dcu.jpg"
- },
- {
-  "id": "desert_6color",
-  "name": "Desert 6-colour (chip)",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "desert_6color.jpg"
- },
- {
-  "id": "urban_grey",
-  "name": "Urban grey",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "urban_grey.jpg"
- },
- {
-  "id": "blue_urban",
-  "name": "Blue urban",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "blue_urban.jpg"
- },
- {
-  "id": "multicam_tropic",
-  "name": "MultiCam Tropic",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "multicam_tropic.jpg"
- },
- {
-  "id": "multicam_black",
-  "name": "MultiCam Black",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "multicam_black.jpg"
- },
- {
-  "id": "olive_brushstroke",
-  "name": "Olive brushstroke",
-  "scale": 1.2632,
-  "group": "Camo",
-  "source": "olive_brushstroke.jpg"
- },
- {
-  "id": "flecktarn",
-  "name": "Flecktarn",
-  "group": "Camo",
-  "scale": 1.5
- },
- {
-  "id": "tropentarn",
-  "name": "Tropentarn",
-  "group": "Camo",
-  "scale": 1.5
- },
- {
-  "id": "dpm",
-  "name": "DPM (British)",
-  "group": "Camo",
-  "scale": 1.8
- },
- {
-  "id": "marpat_woodland",
-  "name": "MARPAT woodland",
-  "group": "Camo",
-  "scale": 1.2
- },
- {
-  "id": "marpat_desert",
-  "name": "MARPAT desert",
-  "group": "Camo",
-  "scale": 1.2
- },
- {
-  "id": "ucp",
-  "name": "UCP / ACU",
-  "group": "Camo",
-  "scale": 1.2
- },
- {
-  "id": "croatian_digital",
-  "name": "Croatian digital (woodland)",
-  "group": "Camo",
-  "scale": 1.3
- },
- {
-  "id": "tiger",
-  "name": "Tiger stripe",
-  "group": "Camo",
-  "scale": 1.5
- },
- {
-  "id": "denim_indigo",
-  "name": "Denim (indigo)",
-  "group": "Fabric",
-  "scale": 0.45
- },
- {
-  "id": "denim_light",
-  "name": "Denim (light wash)",
-  "group": "Fabric",
-  "scale": 0.45
- },
- {
-  "id": "denim_black",
-  "name": "Denim (black)",
-  "group": "Fabric",
-  "scale": 0.45
- },
- {
-  "id": "gingham_red",
-  "name": "Gingham (red)",
-  "group": "Fabric",
-  "scale": 0.6
- },
- {
-  "id": "gingham_blue",
-  "name": "Gingham (blue)",
-  "group": "Fabric",
-  "scale": 0.6
- },
- {
-  "id": "gingham_black",
-  "name": "Gingham (black)",
-  "group": "Fabric",
-  "scale": 0.6
- },
- {
-  "id": "buffalo_check",
-  "name": "Buffalo check",
-  "group": "Fabric",
-  "scale": 0.45
- },
- {
-  "id": "flannel_red",
-  "name": "Flannel plaid (red)",
-  "group": "Fabric",
-  "scale": 0.5
- },
- {
-  "id": "flannel_green",
-  "name": "Flannel plaid (green)",
-  "group": "Fabric",
-  "scale": 0.5
- },
- {
-  "id": "black_watch",
-  "name": "Black Watch tartan",
-  "group": "Fabric",
-  "scale": 0.5
- },
- {
-  "id": "houndstooth",
-  "name": "Houndstooth",
-  "group": "Fabric",
-  "scale": 0.55
- },
- {
-  "id": "herringbone",
-  "name": "Herringbone tweed",
-  "group": "Fabric",
-  "scale": 0.5
- },
- {
-  "id": "pinstripe_navy",
-  "name": "Pinstripe (navy)",
-  "group": "Fabric",
-  "scale": 0.5
- },
- {
-  "id": "corduroy_brown",
-  "name": "Corduroy (brown)",
-  "group": "Fabric",
-  "scale": 0.5
- },
- {
-  "id": "ripstop_olive",
-  "name": "Ripstop (olive)",
-  "group": "Fabric",
-  "scale": 0.5
- },
- {
-  "id": "heather_grey",
-  "name": "Heather grey",
-  "group": "Fabric",
-  "scale": 0.5
- },
- {
-  "id": "breton_stripe",
-  "name": "Breton stripe",
-  "group": "Fabric",
-  "scale": 0.5
- }
+  {
+    "id": "woodland_m81",
+    "name": "Woodland (M81)",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "woodland_m81.jpg"
+  },
+  {
+    "id": "multicam",
+    "name": "MultiCam",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "multicam.jpg"
+  },
+  {
+    "id": "desert_dcu",
+    "name": "Desert 3-colour (DCU)",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "desert_dcu.jpg"
+  },
+  {
+    "id": "desert_6color",
+    "name": "Desert 6-colour (chip)",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "desert_6color.jpg"
+  },
+  {
+    "id": "urban_grey",
+    "name": "Urban grey",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "urban_grey.jpg"
+  },
+  {
+    "id": "blue_urban",
+    "name": "Blue urban",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "blue_urban.jpg"
+  },
+  {
+    "id": "multicam_tropic",
+    "name": "MultiCam Tropic",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "multicam_tropic.jpg"
+  },
+  {
+    "id": "multicam_black",
+    "name": "MultiCam Black",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "multicam_black.jpg"
+  },
+  {
+    "id": "olive_brushstroke",
+    "name": "Olive brushstroke",
+    "scale": 1.2632,
+    "group": "Camo",
+    "source": "olive_brushstroke.jpg"
+  },
+  {
+    "id": "flecktarn",
+    "name": "Flecktarn",
+    "group": "Camo",
+    "scale": 1.5
+  },
+  {
+    "id": "tropentarn",
+    "name": "Tropentarn",
+    "group": "Camo",
+    "scale": 1.5
+  },
+  {
+    "id": "dpm",
+    "name": "DPM (British)",
+    "group": "Camo",
+    "scale": 1.8
+  },
+  {
+    "id": "marpat_woodland",
+    "name": "MARPAT woodland",
+    "group": "Camo",
+    "scale": 1.2
+  },
+  {
+    "id": "marpat_desert",
+    "name": "MARPAT desert",
+    "group": "Camo",
+    "scale": 1.2
+  },
+  {
+    "id": "ucp",
+    "name": "UCP / ACU",
+    "group": "Camo",
+    "scale": 1.2
+  },
+  {
+    "id": "croatian_digital",
+    "name": "Croatian digital (woodland)",
+    "group": "Camo",
+    "scale": 1.3
+  },
+  {
+    "id": "tiger",
+    "name": "Tiger stripe",
+    "group": "Camo",
+    "scale": 1.5
+  },
+  {
+    "id": "denim_indigo",
+    "name": "Denim (indigo)",
+    "group": "Fabric",
+    "scale": 0.45
+  },
+  {
+    "id": "denim_light",
+    "name": "Denim (light wash)",
+    "group": "Fabric",
+    "scale": 0.45
+  },
+  {
+    "id": "denim_black",
+    "name": "Denim (black)",
+    "group": "Fabric",
+    "scale": 0.45
+  },
+  {
+    "id": "gingham_red",
+    "name": "Gingham (red)",
+    "group": "Fabric",
+    "scale": 0.6
+  },
+  {
+    "id": "gingham_blue",
+    "name": "Gingham (blue)",
+    "group": "Fabric",
+    "scale": 0.6
+  },
+  {
+    "id": "gingham_black",
+    "name": "Gingham (black)",
+    "group": "Fabric",
+    "scale": 0.6
+  },
+  {
+    "id": "buffalo_check",
+    "name": "Buffalo check",
+    "group": "Fabric",
+    "scale": 0.45
+  },
+  {
+    "id": "flannel_red",
+    "name": "Flannel plaid (red)",
+    "group": "Fabric",
+    "scale": 0.5
+  },
+  {
+    "id": "flannel_green",
+    "name": "Flannel plaid (green)",
+    "group": "Fabric",
+    "scale": 0.5
+  },
+  {
+    "id": "black_watch",
+    "name": "Black Watch tartan",
+    "group": "Fabric",
+    "scale": 0.5
+  },
+  {
+    "id": "houndstooth",
+    "name": "Houndstooth",
+    "group": "Fabric",
+    "scale": 0.55
+  },
+  {
+    "id": "herringbone",
+    "name": "Herringbone tweed",
+    "group": "Fabric",
+    "scale": 0.5
+  },
+  {
+    "id": "pinstripe_navy",
+    "name": "Pinstripe (navy)",
+    "group": "Fabric",
+    "scale": 0.5
+  },
+  {
+    "id": "corduroy_brown",
+    "name": "Corduroy (brown)",
+    "group": "Fabric",
+    "scale": 0.5
+  },
+  {
+    "id": "ripstop_olive",
+    "name": "Ripstop (olive)",
+    "group": "Fabric",
+    "scale": 0.5
+  },
+  {
+    "id": "heather_grey",
+    "name": "Heather grey",
+    "group": "Fabric",
+    "scale": 0.5
+  },
+  {
+    "id": "breton_stripe",
+    "name": "Breton stripe",
+    "group": "Fabric",
+    "scale": 0.5
+  }
 ]

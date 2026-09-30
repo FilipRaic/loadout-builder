@@ -6,16 +6,20 @@ app works with a double-click and no web server.
 
 Run after changing anything in assets/:   python tools/pack_assets.py
 """
-import base64, json, os
+import base64
+import json
+import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 A = os.path.join(ROOT, 'assets')
+
 
 def uri(path):
     ext = os.path.splitext(path)[1].lower()
     mime = {'.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp'}[ext]
     with open(path, 'rb') as f:
         return f'data:{mime};base64,' + base64.b64encode(f.read()).decode()
+
 
 meta = json.load(open(os.path.join(A, 'meta.json')))
 angles = []

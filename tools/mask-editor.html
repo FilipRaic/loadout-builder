@@ -1,571 +1,1211 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mask Editor</title>
-<style>
-  :root { --bg:#15171a; --panel:#1d2024; --panel2:#25292e; --line:#33383f; --text:#e6e8ea; --muted:#9aa1a9; --accent:#c9a86a; }
-  * { box-sizing: border-box; }
-  html, body { margin:0; height:100%; background:var(--bg); color:var(--text); font:13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color-scheme: dark; }
-  * { scrollbar-width: thin; scrollbar-color: #3d434a transparent; }
-  ::-webkit-scrollbar { width:10px; height:10px; } ::-webkit-scrollbar-thumb { background:#3d434a; border-radius:999px; border:2px solid var(--panel); }
-  button, select, input { font:inherit; color:inherit; }
-  .app { display:grid; grid-template-columns: 270px 1fr; grid-template-rows: auto 1fr auto; height:100vh; }
-  header { grid-column: 1 / 3; display:flex; gap:8px; align-items:center; padding:8px 12px; background:var(--panel); border-bottom:1px solid var(--line); flex-wrap: wrap; }
-  header h1 { font-size:15px; margin:0 10px 0 0; }
-  aside { background:var(--panel); border-right:1px solid var(--line); overflow-y:auto; padding:12px; }
-  footer { grid-column: 1 / 3; padding:5px 12px; background:var(--panel); border-top:1px solid var(--line); color:var(--muted); display:flex; gap:18px; font-size:12px; }
-  .btn { background:#30353b; border:1px solid var(--line); border-radius:7px; padding:5px 10px; cursor:pointer; }
-  .btn:hover { border-color:var(--muted); } .btn:disabled { opacity:.4; cursor:default; }
-  .btn.on { border-color:var(--accent); color:var(--accent); }
-  .btn.primary { background:var(--accent); color:#1a1a1a; border-color:var(--accent); font-weight:600; }
-  .sep { width:1px; height:22px; background:var(--line); margin:0 4px; }
-  .spacer { flex:1; }
-  h2 { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:14px 0 6px; font-weight:600; }
-  h2:first-child { margin-top:0; }
-  .labels { display:flex; flex-direction:column; gap:2px; }
-  .lab { display:grid; grid-template-columns: 18px 1fr auto; gap:8px; align-items:center; padding:4px 6px; border-radius:6px; border:1px solid transparent; background:none; text-align:left; cursor:pointer; }
-  .lab:hover { background:var(--panel2); } .lab.on { background:var(--panel2); border-color:var(--accent); }
-  .lab .c { width:18px; height:18px; border-radius:4px; border:1px solid rgba(255,255,255,.2); }
-  .lab .k { color:var(--muted); font-size:11px; }
-  .row { display:flex; align-items:center; gap:8px; margin:6px 0; color:var(--muted); }
-  .row input[type=range] { flex:1; accent-color:var(--accent); }
-  .row .v { width:34px; text-align:right; color:var(--text); }
-  label.chk { display:flex; gap:8px; align-items:flex-start; margin:6px 0; cursor:pointer; }
-  label.chk input { accent-color:var(--accent); margin-top:2px; }
-  label.chk small { display:block; color:var(--muted); }
-  .seg { display:flex; } .seg .btn { border-radius:0; } .seg .btn:first-child { border-radius:7px 0 0 7px; } .seg .btn:last-child { border-radius:0 7px 7px 0; }
-  .stage { position:relative; overflow:hidden; background:#0d0e10; }
-  canvas#view { position:absolute; inset:0; width:100%; height:100%; touch-action:none; }
-  .hint { color:var(--muted); font-size:11.5px; line-height:1.55; }
-  .hint kbd { background:#2d3238; border:1px solid var(--line); border-radius:4px; padding:0 4px; font:11px ui-monospace,monospace; color:var(--text); }
-  .overlay-msg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:30px; color:var(--muted); }
-  .overlay-msg div { max-width:520px; }
-  .overlay-msg[hidden] { display:none; }
-  .overlay-msg b { color:var(--text); }
-  .dirty { color: var(--accent); }
-  .toast { position:fixed; bottom:40px; left:50%; transform:translateX(-50%); background:#000d; padding:9px 16px; border-radius:8px; opacity:0; transition:.2s; pointer-events:none; max-width:80vw; }
-  .toast.show { opacity:1; }
-</style>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Mask Editor</title>
+    <style>
+        :root {
+            --bg: #15171a;
+            --panel: #1d2024;
+            --panel2: #25292e;
+            --line: #33383f;
+            --text: #e6e8ea;
+            --muted: #9aa1a9;
+            --accent: #c9a86a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            color-scheme: dark;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #3d434a transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3d434a;
+            border-radius: 999px;
+            border: 2px solid var(--panel);
+        }
+
+        button, select, input {
+            font: inherit;
+            color: inherit;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 270px 1fr;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+        }
+
+        header {
+            grid-column: 1 / 3;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 8px 12px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--line);
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 15px;
+            margin: 0 10px 0 0;
+        }
+
+        aside {
+            background: var(--panel);
+            border-right: 1px solid var(--line);
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        footer {
+            grid-column: 1 / 3;
+            padding: 5px 12px;
+            background: var(--panel);
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            display: flex;
+            gap: 18px;
+            font-size: 12px;
+        }
+
+        .btn {
+            background: #30353b;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            border-color: var(--muted);
+        }
+
+        .btn:disabled {
+            opacity: .4;
+            cursor: default;
+        }
+
+        .btn.on {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            color: #1a1a1a;
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+
+        .sep {
+            width: 1px;
+            height: 22px;
+            background: var(--line);
+            margin: 0 4px;
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        h2 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--muted);
+            margin: 14px 0 6px;
+            font-weight: 600;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        .labels {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .lab {
+            display: grid;
+            grid-template-columns: 18px 1fr auto;
+            gap: 8px;
+            align-items: center;
+            padding: 4px 6px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .lab:hover {
+            background: var(--panel2);
+        }
+
+        .lab.on {
+            background: var(--panel2);
+            border-color: var(--accent);
+        }
+
+        .lab .c {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, .2);
+        }
+
+        .lab .k {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+            color: var(--muted);
+        }
+
+        .row input[type=range] {
+            flex: 1;
+            accent-color: var(--accent);
+        }
+
+        .row .v {
+            width: 34px;
+            text-align: right;
+            color: var(--text);
+        }
+
+        label.chk {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            margin: 6px 0;
+            cursor: pointer;
+        }
+
+        label.chk input {
+            accent-color: var(--accent);
+            margin-top: 2px;
+        }
+
+        label.chk small {
+            display: block;
+            color: var(--muted);
+        }
+
+        .seg {
+            display: flex;
+        }
+
+        .seg .btn {
+            border-radius: 0;
+        }
+
+        .seg .btn:first-child {
+            border-radius: 7px 0 0 7px;
+        }
+
+        .seg .btn:last-child {
+            border-radius: 0 7px 7px 0;
+        }
+
+        .stage {
+            position: relative;
+            overflow: hidden;
+            background: #0d0e10;
+        }
+
+        canvas#view {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+
+        .hint {
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.55;
+        }
+
+        .hint kbd {
+            background: #2d3238;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 0 4px;
+            font: 11px ui-monospace, monospace;
+            color: var(--text);
+        }
+
+        .overlay-msg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+        }
+
+        .overlay-msg div {
+            max-width: 520px;
+        }
+
+        .overlay-msg[hidden] {
+            display: none;
+        }
+
+        .overlay-msg b {
+            color: var(--text);
+        }
+
+        .dirty {
+            color: var(--accent);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000d;
+            padding: 9px 16px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: .2s;
+            pointer-events: none;
+            max-width: 80vw;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <h1>Mask Editor</h1>
-    <button class="btn primary" id="open">Open project folder…</button>
-    <button class="btn" id="reopen" hidden>Reopen last folder</button>
-    <span class="sep"></span>
-    <div class="seg" id="angles"></div>
-    <span class="sep"></span>
-    <div class="seg">
-      <button class="btn on" id="toolBrush" title="Brush (B)">Brush</button>
-      <button class="btn" id="toolFill" title="Fill connected area (F)">Fill</button>
-      <button class="btn" id="toolPick" title="Pick item under cursor (I, or Alt+click)">Pick</button>
+    <header>
+        <h1>Mask Editor</h1>
+        <button class="btn primary" id="open">Open project folder…</button>
+        <button class="btn" hidden id="reopen">Reopen last folder</button>
+        <span class="sep"></span>
+        <div class="seg" id="angles"></div>
+        <span class="sep"></span>
+        <div class="seg">
+            <button class="btn on" id="toolBrush" title="Brush (B)">Brush</button>
+            <button class="btn" id="toolFill" title="Fill connected area (F)">Fill</button>
+            <button class="btn" id="toolPick" title="Pick item under cursor (I, or Alt+click)">Pick</button>
+        </div>
+        <button class="btn" id="undo" title="Ctrl+Z">Undo</button>
+        <button class="btn" id="redo" title="Ctrl+Y">Redo</button>
+        <button class="btn" id="fit" title="Fit to window (0)">Fit</button>
+        <span class="spacer"></span>
+        <button class="btn" disabled id="saveLabels">Save labels</button>
+        <button class="btn primary" disabled id="saveBuild">Save &amp; update app</button>
+    </header>
+
+    <aside>
+        <h2>Paint as</h2>
+        <div class="labels" id="labels"></div>
+
+        <h2>Brush</h2>
+        <div class="row">Size <input id="size" max="40" min="1" type="range" value="6"><span class="v"
+                                                                                             id="sizeV">6</span></div>
+        <label class="chk"><input checked id="onlyStart" type="checkbox">
+            <span>Only repaint the item I start on<small>Start the stroke inside the wrong area; other items are protected.</small></span></label>
+        <label class="chk"><input id="edgeAware" type="checkbox">
+            <span>Edge-aware (colour tolerance)<small>Only paints pixels similar in colour to where the stroke starts.</small></span></label>
+        <div class="row">Tolerance <input id="tol" max="120" min="5" type="range" value="35"><span class="v" id="tolV">35</span>
+        </div>
+
+        <h2>View</h2>
+        <div class="seg" id="modes">
+            <button class="btn on" data-m="fill">Fill</button>
+            <button class="btn" data-m="outline">Outline</button>
+            <button class="btn" data-m="off">Photo</button>
+        </div>
+        <div class="row">Opacity <input id="opacity" max="100" min="10" type="range" value="55"><span class="v"
+                                                                                                      id="opV">55</span>
+        </div>
+
+        <h2>Keys</h2>
+        <div class="hint">
+            <kbd>1</kbd>–<kbd>9</kbd> pick item · <kbd>[</kbd> <kbd>]</kbd> brush size<br>
+            <kbd>B</kbd> brush · <kbd>F</kbd> fill · <kbd>I</kbd> / <kbd>Alt</kbd>+click pick<br>
+            <kbd>O</kbd> cycle view · <kbd>Tab</kbd> next angle<br>
+            Wheel zoom · <kbd>Space</kbd>+drag or right-drag pan · <kbd>0</kbd> fit<br>
+            <kbd>Ctrl</kbd>+<kbd>Z</kbd> undo · <kbd>Ctrl</kbd>+<kbd>Y</kbd> redo · <kbd>Ctrl</kbd>+<kbd>S</kbd> save
+            &amp; update
+        </div>
+        <h2>Tips</h2>
+        <div class="hint">
+            To fix a bleed, pick the item that <i>should</i> be there, then start your stroke inside the wrong colour
+            and paint over it. With "Only repaint the item I start on" enabled, neighbouring items won't get
+            damaged.<br><br>
+            <b>Fill</b> is quickest for a whole blob that got the wrong item (e.g. background between legs).<br><br>
+            "Unchanged" = parts that always keep the photo's look (rifle, glasses, flags…). "Background" is also left
+            untouched.
+        </div>
+    </aside>
+
+    <div class="stage" id="stage">
+        <canvas id="view"></canvas>
+        <div class="overlay-msg" id="msg">
+            <div>
+                <b>Open the project folder to start</b><br><br>
+                Click <b>Open project folder…</b> and choose <code>C:\Projects\loadout-builder</code>.<br>
+                Allow the browser to edit files when asked. The editor reads the photos and item maps from that folder
+                and saves your fixes back into it.<br><br>
+                Needs Chrome or Edge (Firefox can't write to folders).
+            </div>
+        </div>
     </div>
-    <button class="btn" id="undo" title="Ctrl+Z">Undo</button>
-    <button class="btn" id="redo" title="Ctrl+Y">Redo</button>
-    <button class="btn" id="fit" title="Fit to window (0)">Fit</button>
-    <span class="spacer"></span>
-    <button class="btn" id="saveLabels" disabled>Save labels</button>
-    <button class="btn primary" id="saveBuild" disabled>Save &amp; update app</button>
-  </header>
 
-  <aside>
-    <h2>Paint as</h2>
-    <div class="labels" id="labels"></div>
-
-    <h2>Brush</h2>
-    <div class="row">Size <input type="range" id="size" min="1" max="40" value="6"><span class="v" id="sizeV">6</span></div>
-    <label class="chk"><input type="checkbox" id="onlyStart" checked>
-      <span>Only repaint the item I start on<small>Start the stroke inside the wrong area; other items are protected.</small></span></label>
-    <label class="chk"><input type="checkbox" id="edgeAware">
-      <span>Edge-aware (colour tolerance)<small>Only paints pixels similar in colour to where the stroke starts.</small></span></label>
-    <div class="row">Tolerance <input type="range" id="tol" min="5" max="120" value="35"><span class="v" id="tolV">35</span></div>
-
-    <h2>View</h2>
-    <div class="seg" id="modes">
-      <button class="btn on" data-m="fill">Fill</button><button class="btn" data-m="outline">Outline</button><button class="btn" data-m="off">Photo</button>
-    </div>
-    <div class="row">Opacity <input type="range" id="opacity" min="10" max="100" value="55"><span class="v" id="opV">55</span></div>
-
-    <h2>Keys</h2>
-    <div class="hint">
-      <kbd>1</kbd>–<kbd>9</kbd> pick item · <kbd>[</kbd> <kbd>]</kbd> brush size<br>
-      <kbd>B</kbd> brush · <kbd>F</kbd> fill · <kbd>I</kbd> / <kbd>Alt</kbd>+click pick<br>
-      <kbd>O</kbd> cycle view · <kbd>Tab</kbd> next angle<br>
-      Wheel zoom · <kbd>Space</kbd>+drag or right-drag pan · <kbd>0</kbd> fit<br>
-      <kbd>Ctrl</kbd>+<kbd>Z</kbd> undo · <kbd>Ctrl</kbd>+<kbd>Y</kbd> redo · <kbd>Ctrl</kbd>+<kbd>S</kbd> save &amp; update
-    </div>
-    <h2>Tips</h2>
-    <div class="hint">
-      To fix a bleed, pick the item that <i>should</i> be there, then start your stroke inside the wrong colour and paint over it. With "Only repaint the item I start on" enabled, neighbouring items won't get damaged.<br><br>
-      <b>Fill</b> is quickest for a whole blob that got the wrong item (e.g. background between legs).<br><br>
-      "Unchanged" = parts that always keep the photo's look (rifle, glasses, flags…). "Background" is also left untouched.
-    </div>
-  </aside>
-
-  <div class="stage" id="stage">
-    <canvas id="view"></canvas>
-    <div class="overlay-msg" id="msg"><div>
-      <b>Open the project folder to start</b><br><br>
-      Click <b>Open project folder…</b> and choose <code>C:\Projects\loadout-builder</code>.<br>
-      Allow the browser to edit files when asked. The editor reads the photos and item maps from that folder and saves your fixes back into it.<br><br>
-      Needs Chrome or Edge (Firefox can't write to folders).
-    </div></div>
-  </div>
-
-  <footer>
-    <span id="stCursor">–</span><span id="stItem"></span><span id="stZoom"></span><span class="spacer"></span><span id="stDirty"></span>
-  </footer>
+    <footer>
+        <span id="stCursor">–</span><span id="stItem"></span><span id="stZoom"></span><span class="spacer"></span><span
+            id="stDirty"></span>
+    </footer>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-(function () {
-'use strict';
-const $ = s => document.querySelector(s);
+    (function () {
+        'use strict';
+        const $ = s => document.querySelector(s);
 
 // ---------- label definitions ----------
-const DEFAULT_LABELS = ['bg','fixed','helmet','face','shirt','carrier','belt','pants','kneepads','gloves','boots','headset','holster','hippouch','chestpouch'];
-const NAMES = { bg:'Background', fixed:'Unchanged (rifle, glasses…)', helmet:'Helmet', face:'Face cover', shirt:'Combat shirt',
-  carrier:'Plate carrier & pack', belt:'Belt', pants:'Pants', kneepads:'Knee pads', gloves:'Gloves', boots:'Boots',
-  headset:'Headset', holster:'Pistol holster', hippouch:'Belt pouch', chestpouch:'Chest pouches' };
-const PALETTE = [[0,0,0],[235,235,235],[230,40,40],[255,150,0],[40,110,255],[40,200,70],[230,40,220],[0,220,230],
-  [150,80,255],[250,230,0],[150,85,30],[255,120,170],[30,40,200],[170,255,120],[0,130,130],[255,210,150],[120,120,255]];
+        const DEFAULT_LABELS = ['bg', 'fixed', 'helmet', 'face', 'shirt', 'carrier', 'belt', 'pants', 'kneepads', 'gloves', 'boots', 'headset', 'holster', 'hippouch', 'chestpouch'];
+        const NAMES = {
+            bg: 'Background',
+            fixed: 'Unchanged (rifle, glasses…)',
+            helmet: 'Helmet',
+            face: 'Face cover',
+            shirt: 'Combat shirt',
+            carrier: 'Plate carrier & pack',
+            belt: 'Belt',
+            pants: 'Pants',
+            kneepads: 'Knee pads',
+            gloves: 'Gloves',
+            boots: 'Boots',
+            headset: 'Headset',
+            holster: 'Pistol holster',
+            hippouch: 'Belt pouch',
+            chestpouch: 'Chest pouches'
+        };
+        const PALETTE = [[0, 0, 0], [235, 235, 235], [230, 40, 40], [255, 150, 0], [40, 110, 255], [40, 200, 70], [230, 40, 220], [0, 220, 230],
+            [150, 80, 255], [250, 230, 0], [150, 85, 30], [255, 120, 170], [30, 40, 200], [170, 255, 120], [0, 130, 130], [255, 210, 150], [120, 120, 255]];
 
 // ---------- state ----------
-let dir = null;               // FileSystemDirectoryHandle of the project
-let LABELS = DEFAULT_LABELS.slice();
-let angles = [];              // {W,H, photo:ImageData, lab:Uint8Array, undo:[], redo:[], dirty:false}
-let A = 0;                    // current angle
-let cur = 7;                  // current label
-let tool = 'brush', mode = 'fill';
-let z = 1, ox = 0, oy = 0;    // view transform: screen = img*z + o
-const view = $('#view'), vctx = view.getContext('2d');
-const photoC = document.createElement('canvas'), photoX = photoC.getContext('2d');
-const ovC = document.createElement('canvas'), ovX = ovC.getContext('2d');
-let ovData = null;
+        let dir = null;               // FileSystemDirectoryHandle of the project
+        let LABELS = DEFAULT_LABELS.slice();
+        let angles = [];              // {W,H, photo:ImageData, lab:Uint8Array, undo:[], redo:[], dirty:false}
+        let A = 0;                    // current angle
+        let cur = 7;                  // current label
+        let tool = 'brush', mode = 'fill';
+        let z = 1, ox = 0, oy = 0;    // view transform: screen = img*z + o
+        const view = $('#view'), vctx = view.getContext('2d');
+        const photoC = document.createElement('canvas'), photoX = photoC.getContext('2d');
+        const ovC = document.createElement('canvas'), ovX = ovC.getContext('2d');
+        let ovData = null;
 
 // ---------- file system helpers ----------
-async function getFile(path) {
-  const parts = path.split('/'); let d = dir;
-  for (const p of parts.slice(0, -1)) d = await d.getDirectoryHandle(p);
-  return (await d.getFileHandle(parts[parts.length - 1])).getFile();
-}
-async function putFile(path, blob) {
-  const parts = path.split('/'); let d = dir;
-  for (const p of parts.slice(0, -1)) d = await d.getDirectoryHandle(p, { create: true });
-  const fh = await d.getFileHandle(parts[parts.length - 1], { create: true });
-  const w = await fh.createWritable(); await w.write(blob); await w.close();
-}
-async function listDir(path) {
-  const parts = path.split('/').filter(Boolean); let d = dir;
-  for (const p of parts) d = await d.getDirectoryHandle(p);
-  const out = []; for await (const [name, h] of d.entries()) if (h.kind === 'file') out.push(name);
-  return out.sort();
-}
-async function exists(path) { try { await getFile(path); return true; } catch (e) { return false; } }
-const bitmap = (blob, raw) => createImageBitmap(blob, raw ? { colorSpaceConversion: 'none', premultiplyAlpha: 'none' } : {});
-function imgData(bmp) {
-  const c = document.createElement('canvas'); c.width = bmp.width; c.height = bmp.height;
-  const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(bmp, 0, 0);
-  return x.getImageData(0, 0, c.width, c.height);
-}
-function toPNG(imageData) {
-  const c = document.createElement('canvas'); c.width = imageData.width; c.height = imageData.height;
-  c.getContext('2d').putImageData(imageData, 0, 0);
-  return new Promise(r => c.toBlob(r, 'image/png'));
-}
-const blobToDataURL = b => new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(b); });
+        async function getFile(path) {
+            const parts = path.split('/');
+            let d = dir;
+            for (const p of parts.slice(0, -1)) d = await d.getDirectoryHandle(p);
+            return (await d.getFileHandle(parts[parts.length - 1])).getFile();
+        }
+
+        async function putFile(path, blob) {
+            const parts = path.split('/');
+            let d = dir;
+            for (const p of parts.slice(0, -1)) d = await d.getDirectoryHandle(p, {create: true});
+            const fh = await d.getFileHandle(parts[parts.length - 1], {create: true});
+            const w = await fh.createWritable();
+            await w.write(blob);
+            await w.close();
+        }
+
+        async function listDir(path) {
+            const parts = path.split('/').filter(Boolean);
+            let d = dir;
+            for (const p of parts) d = await d.getDirectoryHandle(p);
+            const out = [];
+            for await (const [name, h] of d.entries()) if (h.kind === 'file') out.push(name);
+            return out.sort();
+        }
+
+        async function exists(path) {
+            try {
+                await getFile(path);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        const bitmap = (blob, raw) => createImageBitmap(blob, raw ? {
+            colorSpaceConversion: 'none',
+            premultiplyAlpha: 'none'
+        } : {});
+
+        function imgData(bmp) {
+            const c = document.createElement('canvas');
+            c.width = bmp.width;
+            c.height = bmp.height;
+            const x = c.getContext('2d', {willReadFrequently: true});
+            x.drawImage(bmp, 0, 0);
+            return x.getImageData(0, 0, c.width, c.height);
+        }
+
+        function toPNG(imageData) {
+            const c = document.createElement('canvas');
+            c.width = imageData.width;
+            c.height = imageData.height;
+            c.getContext('2d').putImageData(imageData, 0, 0);
+            return new Promise(r => c.toBlob(r, 'image/png'));
+        }
+
+        const blobToDataURL = b => new Promise(r => {
+            const f = new FileReader();
+            f.onload = () => r(f.result);
+            f.readAsDataURL(b);
+        });
 
 // remember the folder between sessions (IndexedDB can store directory handles)
-const idb = () => new Promise((res, rej) => { const q = indexedDB.open('mask-editor', 1); q.onupgradeneeded = () => q.result.createObjectStore('kv'); q.onsuccess = () => res(q.result); q.onerror = rej; });
-async function kvSet(k, v) { try { const db = await idb(); db.transaction('kv', 'readwrite').objectStore('kv').put(v, k); } catch (e) {} }
-async function kvGet(k) { try { const db = await idb(); return await new Promise(r => { const q = db.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => r(q.result); q.onerror = () => r(null); }); } catch (e) { return null; } }
+        const idb = () => new Promise((res, rej) => {
+            const q = indexedDB.open('mask-editor', 1);
+            q.onupgradeneeded = () => q.result.createObjectStore('kv');
+            q.onsuccess = () => res(q.result);
+            q.onerror = rej;
+        });
+
+        async function kvSet(k, v) {
+            try {
+                const db = await idb();
+                db.transaction('kv', 'readwrite').objectStore('kv').put(v, k);
+            } catch (e) {
+            }
+        }
+
+        async function kvGet(k) {
+            try {
+                const db = await idb();
+                return await new Promise(r => {
+                    const q = db.transaction('kv').objectStore('kv').get(k);
+                    q.onsuccess = () => r(q.result);
+                    q.onerror = () => r(null);
+                });
+            } catch (e) {
+                return null;
+            }
+        }
 
 // ---------- loading ----------
-async function openProject(handle) {
-  dir = handle;
-  if (!(await exists('tools/labels/angle0.png'))) {
-    toast('This folder has no tools/labels/angle0.png — pick the loadout-builder project folder.', 4000); dir = null; return;
-  }
-  try { LABELS = JSON.parse(await (await getFile('tools/labels/labels.json')).text()).labels; } catch (e) { LABELS = DEFAULT_LABELS.slice(); }
-  angles = [];
-  for (let p = 0; ; p++) {
-    if (!(await exists(`tools/labels/angle${p}.png`))) break;
-    const photo = imgData(await bitmap(await getFile(`assets/angle${p}/base.jpg`)));
-    const labImg = imgData(await bitmap(await getFile(`tools/labels/angle${p}.png`), true));
-    const lab = new Uint8Array(labImg.width * labImg.height);
-    for (let i = 0; i < lab.length; i++) lab[i] = labImg.data[i * 4];
-    angles.push({ W: labImg.width, H: labImg.height, photo, lab, undo: [], redo: [], dirty: false });
-  }
-  await kvSet('dir', handle);
-  $('#msg').hidden = true; $('#reopen').hidden = true;
-  buildAngles(); buildLabels(); setAngle(0); fit();
-  toast(`Loaded ${angles.length} angles`);
-}
+        async function openProject(handle) {
+            dir = handle;
+            if (!(await exists('tools/labels/angle0.png'))) {
+                toast('This folder has no tools/labels/angle0.png — pick the loadout-builder project folder.', 4000);
+                dir = null;
+                return;
+            }
+            try {
+                LABELS = JSON.parse(await (await getFile('tools/labels/labels.json')).text()).labels;
+            } catch (e) {
+                LABELS = DEFAULT_LABELS.slice();
+            }
+            angles = [];
+            for (let p = 0; ; p++) {
+                if (!(await exists(`tools/labels/angle${p}.png`))) break;
+                const photo = imgData(await bitmap(await getFile(`assets/angle${p}/base.jpg`)));
+                const labImg = imgData(await bitmap(await getFile(`tools/labels/angle${p}.png`), true));
+                const lab = new Uint8Array(labImg.width * labImg.height);
+                for (let i = 0; i < lab.length; i++) lab[i] = labImg.data[i * 4];
+                angles.push({W: labImg.width, H: labImg.height, photo, lab, undo: [], redo: [], dirty: false});
+            }
+            await kvSet('dir', handle);
+            $('#msg').hidden = true;
+            $('#reopen').hidden = true;
+            buildAngles();
+            buildLabels();
+            setAngle(0);
+            fit();
+            toast(`Loaded ${angles.length} angles`);
+        }
 
-$('#open').onclick = async () => {
-  if (!window.showDirectoryPicker) { toast('This browser cannot open folders — please use Chrome or Edge.', 4000); return; }
-  try { await openProject(await window.showDirectoryPicker({ id: 'loadout', mode: 'readwrite' })); }
-  catch (e) { if (e.name !== 'AbortError') toast('Could not open: ' + e.message, 4000); }
-};
-(async () => {
-  const h = await kvGet('dir');
-  if (h) { $('#reopen').hidden = false; $('#reopen').textContent = `Reopen "${h.name}"`;
-    $('#reopen').onclick = async () => {
-      if ((await h.requestPermission({ mode: 'readwrite' })) === 'granted') openProject(h);
-    }; }
-})();
-window.__openWithHandle = openProject;  // used by automated tests
+        $('#open').onclick = async () => {
+            if (!window.showDirectoryPicker) {
+                toast('This browser cannot open folders — please use Chrome or Edge.', 4000);
+                return;
+            }
+            try {
+                await openProject(await window.showDirectoryPicker({id: 'loadout', mode: 'readwrite'}));
+            } catch (e) {
+                if (e.name !== 'AbortError') toast('Could not open: ' + e.message, 4000);
+            }
+        };
+        (async () => {
+            const h = await kvGet('dir');
+            if (h) {
+                $('#reopen').hidden = false;
+                $('#reopen').textContent = `Reopen "${h.name}"`;
+                $('#reopen').onclick = async () => {
+                    if ((await h.requestPermission({mode: 'readwrite'})) === 'granted') openProject(h);
+                };
+            }
+        })();
+        window.__openWithHandle = openProject;  // used by automated tests
 
 // ---------- UI builders ----------
-function buildAngles() {
-  const el = $('#angles'); el.innerHTML = '';
-  angles.forEach((_, i) => { const b = document.createElement('button'); b.className = 'btn'; b.textContent = ['3/4 front', 'Front', '3/4 back'][i] || `Angle ${i + 1}`; b.onclick = () => setAngle(i); el.appendChild(b); });
-}
-function buildLabels() {
-  const el = $('#labels'); el.innerHTML = '';
-  LABELS.forEach((name, i) => {
-    const b = document.createElement('button'); b.className = 'lab' + (i === cur ? ' on' : '');
-    const c = PALETTE[i % PALETTE.length];
-    b.innerHTML = `<span class="c" style="background:rgb(${c})"></span><span>${NAMES[name] || name}</span><span class="k">${i >= 1 && i <= 9 ? i : ''}</span>`;
-    b.onclick = () => { cur = i; buildLabels(); };
-    el.appendChild(b);
-  });
-}
-function setAngle(i) {
-  A = i; const a = angles[A];
-  photoC.width = ovC.width = a.W; photoC.height = ovC.height = a.H;
-  photoX.putImageData(a.photo, 0, 0);
-  ovData = ovX.createImageData(a.W, a.H);
-  [...$('#angles').children].forEach((b, j) => b.classList.toggle('on', j === A));
-  rebuildOverlay(); updateStatus(); draw();
-}
+        function buildAngles() {
+            const el = $('#angles');
+            el.innerHTML = '';
+            angles.forEach((_, i) => {
+                const b = document.createElement('button');
+                b.className = 'btn';
+                b.textContent = ['3/4 front', 'Front', '3/4 back'][i] || `Angle ${i + 1}`;
+                b.onclick = () => setAngle(i);
+                el.appendChild(b);
+            });
+        }
+
+        function buildLabels() {
+            const el = $('#labels');
+            el.innerHTML = '';
+            LABELS.forEach((name, i) => {
+                const b = document.createElement('button');
+                b.className = 'lab' + (i === cur ? ' on' : '');
+                const c = PALETTE[i % PALETTE.length];
+                b.innerHTML = `<span class="c" style="background:rgb(${c})"></span><span>${NAMES[name] || name}</span><span class="k">${i >= 1 && i <= 9 ? i : ''}</span>`;
+                b.onclick = () => {
+                    cur = i;
+                    buildLabels();
+                };
+                el.appendChild(b);
+            });
+        }
+
+        function setAngle(i) {
+            A = i;
+            const a = angles[A];
+            photoC.width = ovC.width = a.W;
+            photoC.height = ovC.height = a.H;
+            photoX.putImageData(a.photo, 0, 0);
+            ovData = ovX.createImageData(a.W, a.H);
+            [...$('#angles').children].forEach((b, j) => b.classList.toggle('on', j === A));
+            rebuildOverlay();
+            updateStatus();
+            draw();
+        }
 
 // ---------- overlay ----------
-function rebuildOverlay(x0 = 0, y0 = 0, x1 = 1e9, y1 = 1e9) {
-  const a = angles[A]; if (!a) return;
-  const { W, H, lab } = a, d = ovData.data;
-  x0 = Math.max(0, x0 | 0); y0 = Math.max(0, y0 | 0); x1 = Math.min(W - 1, x1 | 0); y1 = Math.min(H - 1, y1 | 0);
-  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
-    const i = y * W + x, l = lab[i], o = i * 4;
-    let show = l !== 0 && mode !== 'off';
-    if (show && mode === 'outline') {
-      show = (x > 0 && lab[i - 1] !== l) || (x < W - 1 && lab[i + 1] !== l) || (y > 0 && lab[i - W] !== l) || (y < H - 1 && lab[i + W] !== l);
-    }
-    if (mode === 'outline' && l === 0) show = false;
-    const c = PALETTE[l % PALETTE.length];
-    d[o] = c[0]; d[o + 1] = c[1]; d[o + 2] = c[2]; d[o + 3] = show ? 255 : 0;
-  }
-  ovX.putImageData(ovData, 0, 0);
-}
+        function rebuildOverlay(x0 = 0, y0 = 0, x1 = 1e9, y1 = 1e9) {
+            const a = angles[A];
+            if (!a) return;
+            const {W, H, lab} = a, d = ovData.data;
+            x0 = Math.max(0, x0 | 0);
+            y0 = Math.max(0, y0 | 0);
+            x1 = Math.min(W - 1, x1 | 0);
+            y1 = Math.min(H - 1, y1 | 0);
+            for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+                const i = y * W + x, l = lab[i], o = i * 4;
+                let show = l !== 0 && mode !== 'off';
+                if (show && mode === 'outline') {
+                    show = (x > 0 && lab[i - 1] !== l) || (x < W - 1 && lab[i + 1] !== l) || (y > 0 && lab[i - W] !== l) || (y < H - 1 && lab[i + W] !== l);
+                }
+                if (mode === 'outline' && l === 0) show = false;
+                const c = PALETTE[l % PALETTE.length];
+                d[o] = c[0];
+                d[o + 1] = c[1];
+                d[o + 2] = c[2];
+                d[o + 3] = show ? 255 : 0;
+            }
+            ovX.putImageData(ovData, 0, 0);
+        }
 
 // ---------- drawing ----------
-function resize() { const r = view.getBoundingClientRect(); view.width = r.width * devicePixelRatio; view.height = r.height * devicePixelRatio; draw(); }
-let cursor = null;
-function draw() {
-  vctx.setTransform(1, 0, 0, 1, 0, 0);
-  vctx.fillStyle = '#0d0e10'; vctx.fillRect(0, 0, view.width, view.height);
-  const a = angles[A]; if (!a) return;
-  const s = devicePixelRatio;
-  vctx.setTransform(s, 0, 0, s, 0, 0);
-  vctx.imageSmoothingEnabled = z < 2;
-  vctx.drawImage(photoC, ox, oy, a.W * z, a.H * z);
-  vctx.imageSmoothingEnabled = false;
-  vctx.globalAlpha = mode === 'outline' ? 1 : +$('#opacity').value / 100;
-  vctx.drawImage(ovC, ox, oy, a.W * z, a.H * z);
-  vctx.globalAlpha = 1;
-  if (cursor && tool === 'brush' && !panning) {
-    const r = +$('#size').value / 2 * z;
-    vctx.strokeStyle = '#fff'; vctx.lineWidth = 1.5;
-    vctx.beginPath(); vctx.arc(cursor.sx, cursor.sy, Math.max(r, 1.5), 0, Math.PI * 2); vctx.stroke();
-    vctx.strokeStyle = '#000'; vctx.lineWidth = 0.75; vctx.stroke();
-  }
-}
-function fit() {
-  const a = angles[A]; if (!a) return;
-  const r = view.getBoundingClientRect();
-  z = Math.min(r.width / a.W, r.height / a.H) * 0.95;
-  ox = (r.width - a.W * z) / 2; oy = (r.height - a.H * z) / 2; updateStatus(); draw();
-}
-const toImg = (sx, sy) => ({ x: (sx - ox) / z, y: (sy - oy) / z });
+        function resize() {
+            const r = view.getBoundingClientRect();
+            view.width = r.width * devicePixelRatio;
+            view.height = r.height * devicePixelRatio;
+            draw();
+        }
+
+        let cursor = null;
+
+        function draw() {
+            vctx.setTransform(1, 0, 0, 1, 0, 0);
+            vctx.fillStyle = '#0d0e10';
+            vctx.fillRect(0, 0, view.width, view.height);
+            const a = angles[A];
+            if (!a) return;
+            const s = devicePixelRatio;
+            vctx.setTransform(s, 0, 0, s, 0, 0);
+            vctx.imageSmoothingEnabled = z < 2;
+            vctx.drawImage(photoC, ox, oy, a.W * z, a.H * z);
+            vctx.imageSmoothingEnabled = false;
+            vctx.globalAlpha = mode === 'outline' ? 1 : +$('#opacity').value / 100;
+            vctx.drawImage(ovC, ox, oy, a.W * z, a.H * z);
+            vctx.globalAlpha = 1;
+            if (cursor && tool === 'brush' && !panning) {
+                const r = +$('#size').value / 2 * z;
+                vctx.strokeStyle = '#fff';
+                vctx.lineWidth = 1.5;
+                vctx.beginPath();
+                vctx.arc(cursor.sx, cursor.sy, Math.max(r, 1.5), 0, Math.PI * 2);
+                vctx.stroke();
+                vctx.strokeStyle = '#000';
+                vctx.lineWidth = 0.75;
+                vctx.stroke();
+            }
+        }
+
+        function fit() {
+            const a = angles[A];
+            if (!a) return;
+            const r = view.getBoundingClientRect();
+            z = Math.min(r.width / a.W, r.height / a.H) * 0.95;
+            ox = (r.width - a.W * z) / 2;
+            oy = (r.height - a.H * z) / 2;
+            updateStatus();
+            draw();
+        }
+
+        const toImg = (sx, sy) => ({x: (sx - ox) / z, y: (sy - oy) / z});
 
 // ---------- editing ----------
-function pushUndo() { const a = angles[A]; a.undo.push(a.lab.slice()); if (a.undo.length > 60) a.undo.shift(); a.redo = []; }
-function markDirty() { angles[A].dirty = true; updateStatus(); }
-function undo() { const a = angles[A]; if (!a || !a.undo.length) return; a.redo.push(a.lab); a.lab = a.undo.pop(); a.dirty = true; rebuildOverlay(); draw(); updateStatus(); }
-function redo() { const a = angles[A]; if (!a || !a.redo.length) return; a.undo.push(a.lab); a.lab = a.redo.pop(); a.dirty = true; rebuildOverlay(); draw(); updateStatus(); }
+        function pushUndo() {
+            const a = angles[A];
+            a.undo.push(a.lab.slice());
+            if (a.undo.length > 60) a.undo.shift();
+            a.redo = [];
+        }
 
-let stroke = null;
-function colorAt(a, i) { const d = a.photo.data, o = i * 4; return [d[o], d[o + 1], d[o + 2]]; }
-function stamp(cx, cy) {
-  const a = angles[A], { W, H, lab } = a, r = Math.max(+$('#size').value / 2, 0.5);
-  const only = $('#onlyStart').checked, edge = $('#edgeAware').checked, tol2 = (+$('#tol').value) ** 2;
-  const d = a.photo.data;
-  for (let y = Math.floor(cy - r); y <= Math.ceil(cy + r); y++) {
-    if (y < 0 || y >= H) continue;
-    for (let x = Math.floor(cx - r); x <= Math.ceil(cx + r); x++) {
-      if (x < 0 || x >= W) continue;
-      if ((x + 0.5 - cx) ** 2 + (y + 0.5 - cy) ** 2 > r * r) continue;
-      const i = y * W + x;
-      if (only && lab[i] !== stroke.startLabel) continue;
-      if (edge) { const o = i * 4, c = stroke.startColor; if ((d[o] - c[0]) ** 2 + (d[o + 1] - c[1]) ** 2 + (d[o + 2] - c[2]) ** 2 > tol2) continue; }
-      lab[i] = cur;
-    }
-  }
-  rebuildOverlay(cx - r - 2, cy - r - 2, cx + r + 2, cy + r + 2);
-}
-function strokeTo(p) {
-  const last = stroke.last, step = Math.max(+$('#size').value / 4, 0.5);
-  const dx = p.x - last.x, dy = p.y - last.y, n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / step));
-  for (let k = 1; k <= n; k++) stamp(last.x + dx * k / n, last.y + dy * k / n);
-  stroke.last = p;
-}
-function floodFill(p) {
-  const a = angles[A], { W, H, lab } = a;
-  const x0 = Math.floor(p.x), y0 = Math.floor(p.y); if (x0 < 0 || y0 < 0 || x0 >= W || y0 >= H) return;
-  const start = y0 * W + x0, target = lab[start]; if (target === cur) return;
-  const edge = $('#edgeAware').checked, tol2 = (+$('#tol').value) ** 2, c0 = colorAt(a, start), d = a.photo.data;
-  pushUndo();
-  const stack = [start], seen = new Uint8Array(W * H); seen[start] = 1; let count = 0;
-  while (stack.length) {
-    const i = stack.pop(); lab[i] = cur; count++;
-    const x = i % W, y = (i / W) | 0;
-    for (const j of [x > 0 ? i - 1 : -1, x < W - 1 ? i + 1 : -1, y > 0 ? i - W : -1, y < H - 1 ? i + W : -1]) {
-      if (j < 0 || seen[j] || lab[j] !== target) continue;
-      if (edge) { const o = j * 4; if ((d[o] - c0[0]) ** 2 + (d[o + 1] - c0[1]) ** 2 + (d[o + 2] - c0[2]) ** 2 > tol2) continue; }
-      seen[j] = 1; stack.push(j);
-    }
-  }
-  markDirty(); rebuildOverlay(); draw(); toast(`Filled ${count} px`);
-}
-function pick(p) {
-  const a = angles[A], x = Math.floor(p.x), y = Math.floor(p.y);
-  if (x < 0 || y < 0 || x >= a.W || y >= a.H) return;
-  cur = a.lab[y * a.W + x]; buildLabels(); toast('Painting as: ' + (NAMES[LABELS[cur]] || LABELS[cur]));
-}
+        function markDirty() {
+            angles[A].dirty = true;
+            updateStatus();
+        }
+
+        function undo() {
+            const a = angles[A];
+            if (!a || !a.undo.length) return;
+            a.redo.push(a.lab);
+            a.lab = a.undo.pop();
+            a.dirty = true;
+            rebuildOverlay();
+            draw();
+            updateStatus();
+        }
+
+        function redo() {
+            const a = angles[A];
+            if (!a || !a.redo.length) return;
+            a.undo.push(a.lab);
+            a.lab = a.redo.pop();
+            a.dirty = true;
+            rebuildOverlay();
+            draw();
+            updateStatus();
+        }
+
+        let stroke = null;
+
+        function colorAt(a, i) {
+            const d = a.photo.data, o = i * 4;
+            return [d[o], d[o + 1], d[o + 2]];
+        }
+
+        function stamp(cx, cy) {
+            const a = angles[A], {W, H, lab} = a, r = Math.max(+$('#size').value / 2, 0.5);
+            const only = $('#onlyStart').checked, edge = $('#edgeAware').checked, tol2 = (+$('#tol').value) ** 2;
+            const d = a.photo.data;
+            for (let y = Math.floor(cy - r); y <= Math.ceil(cy + r); y++) {
+                if (y < 0 || y >= H) continue;
+                for (let x = Math.floor(cx - r); x <= Math.ceil(cx + r); x++) {
+                    if (x < 0 || x >= W) continue;
+                    if ((x + 0.5 - cx) ** 2 + (y + 0.5 - cy) ** 2 > r * r) continue;
+                    const i = y * W + x;
+                    if (only && lab[i] !== stroke.startLabel) continue;
+                    if (edge) {
+                        const o = i * 4, c = stroke.startColor;
+                        if ((d[o] - c[0]) ** 2 + (d[o + 1] - c[1]) ** 2 + (d[o + 2] - c[2]) ** 2 > tol2) continue;
+                    }
+                    lab[i] = cur;
+                }
+            }
+            rebuildOverlay(cx - r - 2, cy - r - 2, cx + r + 2, cy + r + 2);
+        }
+
+        function strokeTo(p) {
+            const last = stroke.last, step = Math.max(+$('#size').value / 4, 0.5);
+            const dx = p.x - last.x, dy = p.y - last.y, n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / step));
+            for (let k = 1; k <= n; k++) stamp(last.x + dx * k / n, last.y + dy * k / n);
+            stroke.last = p;
+        }
+
+        function floodFill(p) {
+            const a = angles[A], {W, H, lab} = a;
+            const x0 = Math.floor(p.x), y0 = Math.floor(p.y);
+            if (x0 < 0 || y0 < 0 || x0 >= W || y0 >= H) return;
+            const start = y0 * W + x0, target = lab[start];
+            if (target === cur) return;
+            const edge = $('#edgeAware').checked, tol2 = (+$('#tol').value) ** 2, c0 = colorAt(a, start),
+                d = a.photo.data;
+            pushUndo();
+            const stack = [start], seen = new Uint8Array(W * H);
+            seen[start] = 1;
+            let count = 0;
+            while (stack.length) {
+                const i = stack.pop();
+                lab[i] = cur;
+                count++;
+                const x = i % W, y = (i / W) | 0;
+                for (const j of [x > 0 ? i - 1 : -1, x < W - 1 ? i + 1 : -1, y > 0 ? i - W : -1, y < H - 1 ? i + W : -1]) {
+                    if (j < 0 || seen[j] || lab[j] !== target) continue;
+                    if (edge) {
+                        const o = j * 4;
+                        if ((d[o] - c0[0]) ** 2 + (d[o + 1] - c0[1]) ** 2 + (d[o + 2] - c0[2]) ** 2 > tol2) continue;
+                    }
+                    seen[j] = 1;
+                    stack.push(j);
+                }
+            }
+            markDirty();
+            rebuildOverlay();
+            draw();
+            toast(`Filled ${count} px`);
+        }
+
+        function pick(p) {
+            const a = angles[A], x = Math.floor(p.x), y = Math.floor(p.y);
+            if (x < 0 || y < 0 || x >= a.W || y >= a.H) return;
+            cur = a.lab[y * a.W + x];
+            buildLabels();
+            toast('Painting as: ' + (NAMES[LABELS[cur]] || LABELS[cur]));
+        }
 
 // ---------- pointer / keyboard ----------
-let panning = null, spaceDown = false;
-view.addEventListener('contextmenu', e => e.preventDefault());
-view.addEventListener('pointerdown', e => {
-  if (!angles.length) return;
-  view.setPointerCapture(e.pointerId);
-  const r = view.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top, p = toImg(sx, sy);
-  if (e.button === 1 || e.button === 2 || spaceDown) { panning = { sx, sy, ox, oy }; return; }
-  if (e.button !== 0) return;
-  if (tool === 'pick' || e.altKey) return pick(p);
-  if (tool === 'fill') return floodFill(p);
-  const a = angles[A], x = Math.floor(p.x), y = Math.floor(p.y);
-  if (x < 0 || y < 0 || x >= a.W || y >= a.H) return;
-  pushUndo();
-  stroke = { startLabel: a.lab[y * a.W + x], startColor: colorAt(a, y * a.W + x), last: p };
-  stamp(p.x, p.y); markDirty(); draw();
-});
-view.addEventListener('pointermove', e => {
-  const r = view.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top;
-  cursor = { sx, sy };
-  if (panning) { ox = panning.ox + sx - panning.sx; oy = panning.oy + sy - panning.sy; draw(); return; }
-  const p = toImg(sx, sy);
-  if (stroke) strokeTo(p);
-  const a = angles[A];
-  if (a) {
-    const x = Math.floor(p.x), y = Math.floor(p.y);
-    if (x >= 0 && y >= 0 && x < a.W && y < a.H) {
-      const l = a.lab[y * a.W + x];
-      $('#stCursor').textContent = `x ${x}, y ${y}`; $('#stItem').textContent = 'Under cursor: ' + (NAMES[LABELS[l]] || LABELS[l]);
-    }
-  }
-  draw();
-});
-const endPointer = () => { stroke = null; panning = null; };
-view.addEventListener('pointerup', endPointer); view.addEventListener('pointercancel', endPointer);
-view.addEventListener('pointerleave', () => { cursor = null; draw(); });
-view.addEventListener('wheel', e => {
-  e.preventDefault(); if (!angles.length) return;
-  const r = view.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top;
-  const f = Math.exp(-e.deltaY * 0.0015), nz = Math.min(40, Math.max(0.3, z * f));
-  ox = sx - (sx - ox) * nz / z; oy = sy - (sy - oy) * nz / z; z = nz; updateStatus(); draw();
-}, { passive: false });
+        let panning = null, spaceDown = false;
+        view.addEventListener('contextmenu', e => e.preventDefault());
+        view.addEventListener('pointerdown', e => {
+            if (!angles.length) return;
+            view.setPointerCapture(e.pointerId);
+            const r = view.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top, p = toImg(sx, sy);
+            if (e.button === 1 || e.button === 2 || spaceDown) {
+                panning = {sx, sy, ox, oy};
+                return;
+            }
+            if (e.button !== 0) return;
+            if (tool === 'pick' || e.altKey) return pick(p);
+            if (tool === 'fill') return floodFill(p);
+            const a = angles[A], x = Math.floor(p.x), y = Math.floor(p.y);
+            if (x < 0 || y < 0 || x >= a.W || y >= a.H) return;
+            pushUndo();
+            stroke = {startLabel: a.lab[y * a.W + x], startColor: colorAt(a, y * a.W + x), last: p};
+            stamp(p.x, p.y);
+            markDirty();
+            draw();
+        });
+        view.addEventListener('pointermove', e => {
+            const r = view.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top;
+            cursor = {sx, sy};
+            if (panning) {
+                ox = panning.ox + sx - panning.sx;
+                oy = panning.oy + sy - panning.sy;
+                draw();
+                return;
+            }
+            const p = toImg(sx, sy);
+            if (stroke) strokeTo(p);
+            const a = angles[A];
+            if (a) {
+                const x = Math.floor(p.x), y = Math.floor(p.y);
+                if (x >= 0 && y >= 0 && x < a.W && y < a.H) {
+                    const l = a.lab[y * a.W + x];
+                    $('#stCursor').textContent = `x ${x}, y ${y}`;
+                    $('#stItem').textContent = 'Under cursor: ' + (NAMES[LABELS[l]] || LABELS[l]);
+                }
+            }
+            draw();
+        });
+        const endPointer = () => {
+            stroke = null;
+            panning = null;
+        };
+        view.addEventListener('pointerup', endPointer);
+        view.addEventListener('pointercancel', endPointer);
+        view.addEventListener('pointerleave', () => {
+            cursor = null;
+            draw();
+        });
+        view.addEventListener('wheel', e => {
+            e.preventDefault();
+            if (!angles.length) return;
+            const r = view.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top;
+            const f = Math.exp(-e.deltaY * 0.0015), nz = Math.min(40, Math.max(0.3, z * f));
+            ox = sx - (sx - ox) * nz / z;
+            oy = sy - (sy - oy) * nz / z;
+            z = nz;
+            updateStatus();
+            draw();
+        }, {passive: false});
 
-function setTool(t) { tool = t; $('#toolBrush').classList.toggle('on', t === 'brush'); $('#toolFill').classList.toggle('on', t === 'fill'); $('#toolPick').classList.toggle('on', t === 'pick'); view.style.cursor = t === 'brush' ? 'none' : 'crosshair'; draw(); }
-function setMode(m) { mode = m; [...$('#modes').children].forEach(b => b.classList.toggle('on', b.dataset.m === m)); rebuildOverlay(); draw(); }
-$('#toolBrush').onclick = () => setTool('brush'); $('#toolFill').onclick = () => setTool('fill'); $('#toolPick').onclick = () => setTool('pick');
-[...$('#modes').children].forEach(b => b.onclick = () => setMode(b.dataset.m));
-$('#undo').onclick = undo; $('#redo').onclick = redo; $('#fit').onclick = fit;
-$('#size').oninput = () => { $('#sizeV').textContent = $('#size').value; draw(); };
-$('#tol').oninput = () => $('#tolV').textContent = $('#tol').value;
-$('#opacity').oninput = () => { $('#opV').textContent = $('#opacity').value; draw(); };
+        function setTool(t) {
+            tool = t;
+            $('#toolBrush').classList.toggle('on', t === 'brush');
+            $('#toolFill').classList.toggle('on', t === 'fill');
+            $('#toolPick').classList.toggle('on', t === 'pick');
+            view.style.cursor = t === 'brush' ? 'none' : 'crosshair';
+            draw();
+        }
 
-window.addEventListener('keydown', e => {
-  if (e.target.tagName === 'INPUT' && e.target.type !== 'range' && e.target.type !== 'checkbox') return;
-  const k = e.key.toLowerCase();
-  if ((e.ctrlKey || e.metaKey) && k === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
-  if ((e.ctrlKey || e.metaKey) && k === 'y') { e.preventDefault(); redo(); return; }
-  if ((e.ctrlKey || e.metaKey) && k === 's') { e.preventDefault(); save(true); return; }
-  if (e.ctrlKey || e.metaKey || e.altKey) return;
-  if (k === ' ') { spaceDown = true; view.style.cursor = 'grab'; e.preventDefault(); return; }
-  if (k === 'b') setTool('brush'); else if (k === 'f') setTool('fill'); else if (k === 'i') setTool('pick');
-  else if (k === 'o') setMode({ fill: 'outline', outline: 'off', off: 'fill' }[mode]);
-  else if (k === '[') { $('#size').value = Math.max(1, +$('#size').value - 1); $('#size').oninput(); }
-  else if (k === ']') { $('#size').value = Math.min(40, +$('#size').value + 1); $('#size').oninput(); }
-  else if (k === 'tab') { e.preventDefault(); if (angles.length) setAngle((A + 1) % angles.length); }
-  else if (k === '0') fit();
-  else if (/^[1-9]$/.test(k)) { const n = +k; if (n < LABELS.length) { cur = n; buildLabels(); } }
-});
-window.addEventListener('keyup', e => { if (e.key === ' ') { spaceDown = false; setTool(tool); } });
-window.addEventListener('beforeunload', e => { if (angles.some(a => a.dirty)) { e.preventDefault(); e.returnValue = ''; } });
-window.addEventListener('resize', resize);
+        function setMode(m) {
+            mode = m;
+            [...$('#modes').children].forEach(b => b.classList.toggle('on', b.dataset.m === m));
+            rebuildOverlay();
+            draw();
+        }
 
-function updateStatus() {
-  $('#stZoom').textContent = angles.length ? `Zoom ${Math.round(z * 100)}%` : '';
-  const dirty = angles.map((a, i) => a.dirty ? ['3/4 front', 'Front', '3/4 back'][i] || i : null).filter(x => x !== null);
-  $('#stDirty').innerHTML = dirty.length ? `<span class="dirty">Unsaved: ${dirty.join(', ')}</span>` : (angles.length ? 'All changes saved' : '');
-  $('#saveLabels').disabled = $('#saveBuild').disabled = !angles.length;
-  $('#undo').disabled = !angles[A] || !angles[A].undo.length; $('#redo').disabled = !angles[A] || !angles[A].redo.length;
-}
+        $('#toolBrush').onclick = () => setTool('brush');
+        $('#toolFill').onclick = () => setTool('fill');
+        $('#toolPick').onclick = () => setTool('pick');
+        [...$('#modes').children].forEach(b => b.onclick = () => setMode(b.dataset.m));
+        $('#undo').onclick = undo;
+        $('#redo').onclick = redo;
+        $('#fit').onclick = fit;
+        $('#size').oninput = () => {
+            $('#sizeV').textContent = $('#size').value;
+            draw();
+        };
+        $('#tol').oninput = () => $('#tolV').textContent = $('#tol').value;
+        $('#opacity').oninput = () => {
+            $('#opV').textContent = $('#opacity').value;
+            draw();
+        };
+
+        window.addEventListener('keydown', e => {
+            if (e.target.tagName === 'INPUT' && e.target.type !== 'range' && e.target.type !== 'checkbox') return;
+            const k = e.key.toLowerCase();
+            if ((e.ctrlKey || e.metaKey) && k === 'z') {
+                e.preventDefault();
+                e.shiftKey ? redo() : undo();
+                return;
+            }
+            if ((e.ctrlKey || e.metaKey) && k === 'y') {
+                e.preventDefault();
+                redo();
+                return;
+            }
+            if ((e.ctrlKey || e.metaKey) && k === 's') {
+                e.preventDefault();
+                save(true);
+                return;
+            }
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+            if (k === ' ') {
+                spaceDown = true;
+                view.style.cursor = 'grab';
+                e.preventDefault();
+                return;
+            }
+            if (k === 'b') setTool('brush'); else if (k === 'f') setTool('fill'); else if (k === 'i') setTool('pick');
+            else if (k === 'o') setMode({fill: 'outline', outline: 'off', off: 'fill'}[mode]);
+            else if (k === '[') {
+                $('#size').value = Math.max(1, +$('#size').value - 1);
+                $('#size').oninput();
+            } else if (k === ']') {
+                $('#size').value = Math.min(40, +$('#size').value + 1);
+                $('#size').oninput();
+            } else if (k === 'tab') {
+                e.preventDefault();
+                if (angles.length) setAngle((A + 1) % angles.length);
+            } else if (k === '0') fit();
+            else if (/^[1-9]$/.test(k)) {
+                const n = +k;
+                if (n < LABELS.length) {
+                    cur = n;
+                    buildLabels();
+                }
+            }
+        });
+        window.addEventListener('keyup', e => {
+            if (e.key === ' ') {
+                spaceDown = false;
+                setTool(tool);
+            }
+        });
+        window.addEventListener('beforeunload', e => {
+            if (angles.some(a => a.dirty)) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+        window.addEventListener('resize', resize);
+
+        function updateStatus() {
+            $('#stZoom').textContent = angles.length ? `Zoom ${Math.round(z * 100)}%` : '';
+            const dirty = angles.map((a, i) => a.dirty ? ['3/4 front', 'Front', '3/4 back'][i] || i : null).filter(x => x !== null);
+            $('#stDirty').innerHTML = dirty.length ? `<span class="dirty">Unsaved: ${dirty.join(', ')}</span>` : (angles.length ? 'All changes saved' : '');
+            $('#saveLabels').disabled = $('#saveBuild').disabled = !angles.length;
+            $('#undo').disabled = !angles[A] || !angles[A].undo.length;
+            $('#redo').disabled = !angles[A] || !angles[A].redo.length;
+        }
 
 // ---------- saving + rebuilding the app's masks (same maths as tools/build_assets.py) ----------
-async function saveLabels() {
-  for (let p = 0; p < angles.length; p++) {
-    const a = angles[p]; if (!a.dirty) continue;
-    const im = new ImageData(a.W, a.H);
-    for (let i = 0; i < a.lab.length; i++) { const o = i * 4; im.data[o] = im.data[o + 1] = im.data[o + 2] = a.lab[i]; im.data[o + 3] = 255; }
-    await putFile(`tools/labels/angle${p}.png`, await toPNG(im));
-    a.dirty = false;
-  }
-}
+        async function saveLabels() {
+            for (let p = 0; p < angles.length; p++) {
+                const a = angles[p];
+                if (!a.dirty) continue;
+                const im = new ImageData(a.W, a.H);
+                for (let i = 0; i < a.lab.length; i++) {
+                    const o = i * 4;
+                    im.data[o] = im.data[o + 1] = im.data[o + 2] = a.lab[i];
+                    im.data[o + 3] = 255;
+                }
+                await putFile(`tools/labels/angle${p}.png`, await toPNG(im));
+                a.dirty = false;
+            }
+        }
 
-const srgb2lin = c => (c /= 255, c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
-const LUT = new Float64Array(256).map((_, i) => srgb2lin(i));
+        const srgb2lin = c => (c /= 255, c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+        const LUT = new Float64Array(256).map((_, i) => srgb2lin(i));
 
-function boxMean(src, W, H, r) {   // normalised box filter, reflect-101 borders (matches cv2.boxFilter)
-  const tmp = new Float64Array(W * H), out = new Float64Array(W * H), n = 2 * r + 1;
-  const cl = (v, m) => v < 0 ? -v : v >= m ? 2 * m - v - 2 : v;
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { let a = 0; for (let j = -r; j <= r; j++) a += src[y * W + cl(x + j, W)]; tmp[y * W + x] = a / n; }
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { let a = 0; for (let j = -r; j <= r; j++) a += tmp[cl(y + j, H) * W + x]; out[y * W + x] = a / n; }
-  return out;
-}
-function guided(I, p, W, H, r, eps) {
-  const N = W * H, Ip = new Float64Array(N), II = new Float64Array(N);
-  for (let i = 0; i < N; i++) { Ip[i] = I[i] * p[i]; II[i] = I[i] * I[i]; }
-  const mI = boxMean(I, W, H, r), mp = boxMean(p, W, H, r), mIp = boxMean(Ip, W, H, r), mII = boxMean(II, W, H, r);
-  const a = new Float64Array(N), b = new Float64Array(N);
-  for (let i = 0; i < N; i++) { const cov = mIp[i] - mI[i] * mp[i], v = mII[i] - mI[i] * mI[i]; a[i] = cov / (v + eps); b[i] = mp[i] - a[i] * mI[i]; }
-  const ma = boxMean(a, W, H, r), mb = boxMean(b, W, H, r), out = new Float64Array(N);
-  for (let i = 0; i < N; i++) out[i] = ma[i] * I[i] + mb[i];
-  return out;
-}
-function gauss(src, W, H, sigma) {
-  const rad = 3, k = []; let s = 0;
-  for (let i = -rad; i <= rad; i++) { const v = Math.exp(-(i * i) / (2 * sigma * sigma)); k.push(v); s += v; }
-  for (let i = 0; i < k.length; i++) k[i] /= s;
-  const tmp = new Float64Array(W * H), out = new Float64Array(W * H);
-  const cl = (v, m) => v < 0 ? -v : v >= m ? 2 * m - v - 2 : v;
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { let a = 0; for (let j = -rad; j <= rad; j++) a += src[y * W + cl(x + j, W)] * k[j + rad]; tmp[y * W + x] = a; }
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { let a = 0; for (let j = -rad; j <= rad; j++) a += tmp[cl(y + j, H) * W + x] * k[j + rad]; out[y * W + x] = a; }
-  return out;
-}
-function open2x2(m, W, H) {   // morphological opening with a 2x2 square: removes 1-px specks
-  const e = new Float64Array(W * H), o = new Float64Array(W * H);
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-    const i = y * W + x; e[i] = (x < W - 1 && y < H - 1) ? Math.min(m[i], m[i + 1], m[i + W], m[i + W + 1]) : 0;
-  }
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-    const i = y * W + x; o[i] = Math.max(e[i], x > 0 ? e[i - 1] : 0, y > 0 ? e[i - W] : 0, x > 0 && y > 0 ? e[i - W - 1] : 0);
-  }
-  return o;
-}
+        function boxMean(src, W, H, r) {   // normalised box filter, reflect-101 borders (matches cv2.boxFilter)
+            const tmp = new Float64Array(W * H), out = new Float64Array(W * H), n = 2 * r + 1;
+            const cl = (v, m) => v < 0 ? -v : v >= m ? 2 * m - v - 2 : v;
+            for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+                let a = 0;
+                for (let j = -r; j <= r; j++) a += src[y * W + cl(x + j, W)];
+                tmp[y * W + x] = a / n;
+            }
+            for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+                let a = 0;
+                for (let j = -r; j <= r; j++) a += tmp[cl(y + j, H) * W + x];
+                out[y * W + x] = a / n;
+            }
+            return out;
+        }
 
-async function rebuildApp(log) {
-  const meta = JSON.parse(await (await getFile('assets/meta.json')).text());
-  const ITEMS = meta.items;
-  meta.angles = meta.angles || [];
-  let tintSum = [0, 0, 0], tintN = 0;
-  for (let p = 0; p < angles.length; p++) {
-    log(`Rebuilding masks for angle ${p + 1}/${angles.length}…`);
-    await new Promise(r => setTimeout(r, 0));
-    const a = angles[p], { W, H, lab } = a, N = W * H, ph = a.photo.data;
-    const shade = imgData(await bitmap(await getFile(`assets/angle${p}/shade.png`), true)).data;
-    const guide = new Float64Array(N), Y = new Float64Array(N);
-    for (let i = 0; i < N; i++) {
-      const o = i * 4;
-      guide[i] = (0.299 * ph[o] + 0.587 * ph[o + 1] + 0.114 * ph[o + 2]) / 255;
-      Y[i] = LUT[shade[o]];
-      if (lab[i] === 0) { tintSum[0] += LUT[ph[o]]; tintSum[1] += LUT[ph[o + 1]]; tintSum[2] += LUT[ph[o + 2]]; tintN++; }
-    }
-    const masks = [], medians = {};
-    for (const name of ITEMS) {
-      const li = LABELS.indexOf(name);
-      let m = new Float64Array(N), vals = [];
-      for (let i = 0; i < N; i++) if (lab[i] === li) { m[i] = 1; vals.push(Y[i]); }
-      if (vals.length) {
-        m = open2x2(m, W, H);
-        m = gauss(guided(guide, m, W, H, 2, 2e-3), W, H, 0.6);
-        for (let i = 0; i < N; i++) m[i] = Math.min(1, Math.max(0, m[i]));
-        vals.sort((x, y) => x - y);
-        const h = vals.length >> 1; medians[name] = vals.length % 2 ? vals[h] : (vals[h - 1] + vals[h]) / 2;
-      } else { m = new Float64Array(N); medians[name] = 0.1; }
-      masks.push(m);
-    }
-    for (let i = 0; i < N; i++) { let s = 0; for (const m of masks) s += m[i]; if (s > 1) for (const m of masks) m[i] /= s; }
-    const nImg = Math.ceil(ITEMS.length / 3);
-    for (let k = 0; k < nImg; k++) {
-      const im = new ImageData(W, H);
-      for (let i = 0; i < N; i++) {
-        const o = i * 4;
-        for (let c = 0; c < 3; c++) { const m = masks[3 * k + c]; im.data[o + c] = m ? Math.round(m[i] * 255) : 0; }
-        im.data[o + 3] = 255;
-      }
-      await putFile(`assets/angle${p}/mask${'ABCDEFGH'[k]}.png`, await toPNG(im));
-    }
-    meta.angles[p] = { ...(meta.angles[p] || {}), medians };
-  }
-  if (tintN) { const m = tintSum.map(v => v / tintN), l = 0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]; meta.tint = m.map(v => v / l); }
-  await putFile('assets/meta.json', new Blob([JSON.stringify(meta, null, 1)], { type: 'application/json' }));
+        function guided(I, p, W, H, r, eps) {
+            const N = W * H, Ip = new Float64Array(N), II = new Float64Array(N);
+            for (let i = 0; i < N; i++) {
+                Ip[i] = I[i] * p[i];
+                II[i] = I[i] * I[i];
+            }
+            const mI = boxMean(I, W, H, r), mp = boxMean(p, W, H, r), mIp = boxMean(Ip, W, H, r),
+                mII = boxMean(II, W, H, r);
+            const a = new Float64Array(N), b = new Float64Array(N);
+            for (let i = 0; i < N; i++) {
+                const cov = mIp[i] - mI[i] * mp[i], v = mII[i] - mI[i] * mI[i];
+                a[i] = cov / (v + eps);
+                b[i] = mp[i] - a[i] * mI[i];
+            }
+            const ma = boxMean(a, W, H, r), mb = boxMean(b, W, H, r), out = new Float64Array(N);
+            for (let i = 0; i < N; i++) out[i] = ma[i] * I[i] + mb[i];
+            return out;
+        }
 
-  log('Packing js/assets.js…');
-  const angOut = [];
-  for (let p = 0; p < meta.angles.length; p++) {
-    const files = await listDir(`assets/angle${p}`);
-    angOut.push({
-      medians: meta.angles[p].medians,
-      base: await blobToDataURL(await getFile(`assets/angle${p}/base.jpg`)),
-      shade: await blobToDataURL(await getFile(`assets/angle${p}/shade.png`)),
-      masks: await Promise.all(files.filter(f => f.startsWith('mask')).map(async f => blobToDataURL(await getFile(`assets/angle${p}/${f}`)))),
-    });
-  }
-  const pj = JSON.parse(await (await getFile('assets/patterns/patterns.json')).text());
-  const pfiles = await listDir('assets/patterns');
-  const patterns = [];
-  for (const p of pj) {
-    const fn = pfiles.find(f => f.replace(/\.[^.]+$/, '') === p.id && !f.endsWith('.json'));
-    if (fn) patterns.push({ ...p, src: await blobToDataURL(await getFile(`assets/patterns/${fn}`)) });
-  }
-  const out = { items: meta.items, tint: meta.tint || [1, 1, 1], width: meta.width, height: meta.height, angles: angOut, patterns };
-  await putFile('js/assets.js', new Blob(['// Generated by tools/mask-editor.html - do not edit by hand.\nwindow.LOADOUT_ASSETS = ' + JSON.stringify(out) + ';\n'], { type: 'text/javascript' }));
-}
+        function gauss(src, W, H, sigma) {
+            const rad = 3, k = [];
+            let s = 0;
+            for (let i = -rad; i <= rad; i++) {
+                const v = Math.exp(-(i * i) / (2 * sigma * sigma));
+                k.push(v);
+                s += v;
+            }
+            for (let i = 0; i < k.length; i++) k[i] /= s;
+            const tmp = new Float64Array(W * H), out = new Float64Array(W * H);
+            const cl = (v, m) => v < 0 ? -v : v >= m ? 2 * m - v - 2 : v;
+            for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+                let a = 0;
+                for (let j = -rad; j <= rad; j++) a += src[y * W + cl(x + j, W)] * k[j + rad];
+                tmp[y * W + x] = a;
+            }
+            for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+                let a = 0;
+                for (let j = -rad; j <= rad; j++) a += tmp[cl(y + j, H) * W + x] * k[j + rad];
+                out[y * W + x] = a;
+            }
+            return out;
+        }
 
-let saving = false;
-async function save(build) {
-  if (!dir || saving) return; saving = true;
-  $('#saveLabels').disabled = $('#saveBuild').disabled = true;
-  try {
-    await saveLabels(); updateStatus();
-    if (build) { await rebuildApp(m => toast(m, 60000)); toast('Saved. Reload index.html to see the result.', 3500); }
-    else toast('Labels saved', 1800);
-  } catch (e) { console.error(e); toast('Save failed: ' + e.message, 5000); }
-  saving = false; updateStatus();
-}
-$('#saveLabels').onclick = () => save(false);
-$('#saveBuild').onclick = () => save(true);
+        function open2x2(m, W, H) {   // morphological opening with a 2x2 square: removes 1-px specks
+            const e = new Float64Array(W * H), o = new Float64Array(W * H);
+            for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+                const i = y * W + x;
+                e[i] = (x < W - 1 && y < H - 1) ? Math.min(m[i], m[i + 1], m[i + W], m[i + W + 1]) : 0;
+            }
+            for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+                const i = y * W + x;
+                o[i] = Math.max(e[i], x > 0 ? e[i - 1] : 0, y > 0 ? e[i - W] : 0, x > 0 && y > 0 ? e[i - W - 1] : 0);
+            }
+            return o;
+        }
 
-function toast(msg, ms = 1600) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), ms); }
+        async function rebuildApp(log) {
+            const meta = JSON.parse(await (await getFile('assets/meta.json')).text());
+            const ITEMS = meta.items;
+            meta.angles = meta.angles || [];
+            let tintSum = [0, 0, 0], tintN = 0;
+            for (let p = 0; p < angles.length; p++) {
+                log(`Rebuilding masks for angle ${p + 1}/${angles.length}…`);
+                await new Promise(r => setTimeout(r, 0));
+                const a = angles[p], {W, H, lab} = a, N = W * H, ph = a.photo.data;
+                const shade = imgData(await bitmap(await getFile(`assets/angle${p}/shade.png`), true)).data;
+                const guide = new Float64Array(N), Y = new Float64Array(N);
+                for (let i = 0; i < N; i++) {
+                    const o = i * 4;
+                    guide[i] = (0.299 * ph[o] + 0.587 * ph[o + 1] + 0.114 * ph[o + 2]) / 255;
+                    Y[i] = LUT[shade[o]];
+                    if (lab[i] === 0) {
+                        tintSum[0] += LUT[ph[o]];
+                        tintSum[1] += LUT[ph[o + 1]];
+                        tintSum[2] += LUT[ph[o + 2]];
+                        tintN++;
+                    }
+                }
+                const masks = [], medians = {};
+                for (const name of ITEMS) {
+                    const li = LABELS.indexOf(name);
+                    let m = new Float64Array(N), vals = [];
+                    for (let i = 0; i < N; i++) if (lab[i] === li) {
+                        m[i] = 1;
+                        vals.push(Y[i]);
+                    }
+                    if (vals.length) {
+                        m = open2x2(m, W, H);
+                        m = gauss(guided(guide, m, W, H, 2, 2e-3), W, H, 0.6);
+                        for (let i = 0; i < N; i++) m[i] = Math.min(1, Math.max(0, m[i]));
+                        vals.sort((x, y) => x - y);
+                        const h = vals.length >> 1;
+                        medians[name] = vals.length % 2 ? vals[h] : (vals[h - 1] + vals[h]) / 2;
+                    } else {
+                        m = new Float64Array(N);
+                        medians[name] = 0.1;
+                    }
+                    masks.push(m);
+                }
+                for (let i = 0; i < N; i++) {
+                    let s = 0;
+                    for (const m of masks) s += m[i];
+                    if (s > 1) for (const m of masks) m[i] /= s;
+                }
+                const nImg = Math.ceil(ITEMS.length / 3);
+                for (let k = 0; k < nImg; k++) {
+                    const im = new ImageData(W, H);
+                    for (let i = 0; i < N; i++) {
+                        const o = i * 4;
+                        for (let c = 0; c < 3; c++) {
+                            const m = masks[3 * k + c];
+                            im.data[o + c] = m ? Math.round(m[i] * 255) : 0;
+                        }
+                        im.data[o + 3] = 255;
+                    }
+                    await putFile(`assets/angle${p}/mask${'ABCDEFGH'[k]}.png`, await toPNG(im));
+                }
+                meta.angles[p] = {...(meta.angles[p] || {}), medians};
+            }
+            if (tintN) {
+                const m = tintSum.map(v => v / tintN), l = 0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2];
+                meta.tint = m.map(v => v / l);
+            }
+            await putFile('assets/meta.json', new Blob([JSON.stringify(meta, null, 1)], {type: 'application/json'}));
 
-buildLabels(); resize(); setTool('brush'); updateStatus();
-})();
+            log('Packing js/assets.js…');
+            const angOut = [];
+            for (let p = 0; p < meta.angles.length; p++) {
+                const files = await listDir(`assets/angle${p}`);
+                angOut.push({
+                    medians: meta.angles[p].medians,
+                    base: await blobToDataURL(await getFile(`assets/angle${p}/base.jpg`)),
+                    shade: await blobToDataURL(await getFile(`assets/angle${p}/shade.png`)),
+                    masks: await Promise.all(files.filter(f => f.startsWith('mask')).map(async f => blobToDataURL(await getFile(`assets/angle${p}/${f}`)))),
+                });
+            }
+            const pj = JSON.parse(await (await getFile('assets/patterns/patterns.json')).text());
+            const pfiles = await listDir('assets/patterns');
+            const patterns = [];
+            for (const p of pj) {
+                const fn = pfiles.find(f => f.replace(/\.[^.]+$/, '') === p.id && !f.endsWith('.json'));
+                if (fn) patterns.push({...p, src: await blobToDataURL(await getFile(`assets/patterns/${fn}`))});
+            }
+            const out = {
+                items: meta.items,
+                tint: meta.tint || [1, 1, 1],
+                width: meta.width,
+                height: meta.height,
+                angles: angOut,
+                patterns
+            };
+            await putFile('js/assets.js', new Blob(['// Generated by tools/mask-editor.html - do not edit by hand.\nwindow.LOADOUT_ASSETS = ' + JSON.stringify(out) + ';\n'], {type: 'text/javascript'}));
+        }
+
+        let saving = false;
+
+        async function save(build) {
+            if (!dir || saving) return;
+            saving = true;
+            $('#saveLabels').disabled = $('#saveBuild').disabled = true;
+            try {
+                await saveLabels();
+                updateStatus();
+                if (build) {
+                    await rebuildApp(m => toast(m, 60000));
+                    toast('Saved. Reload index.html to see the result.', 3500);
+                } else toast('Labels saved', 1800);
+            } catch (e) {
+                console.error(e);
+                toast('Save failed: ' + e.message, 5000);
+            }
+            saving = false;
+            updateStatus();
+        }
+
+        $('#saveLabels').onclick = () => save(false);
+        $('#saveBuild').onclick = () => save(true);
+
+        function toast(msg, ms = 1600) {
+            const t = $('#toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toast.t);
+            toast.t = setTimeout(() => t.classList.remove('show'), ms);
+        }
+
+        buildLabels();
+        resize();
+        setTool('brush');
+        updateStatus();
+    })();
 </script>
 </body>
 </html>

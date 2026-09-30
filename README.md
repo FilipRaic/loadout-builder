@@ -11,15 +11,15 @@ which all support WebGL2.
 
 - **Presets** give you a quick starting point.
 - **Gear**: click an item, then pick a pattern, a solid colour, or a custom colour.
-  - *Pattern size* changes the print size for that item only.
-  - *Apply to all items* copies the current choice to every item.
-  - *Keep original* leaves that item as it is in the photo.
+    - *Pattern size* changes the print size for that item only.
+    - *Apply to all items* copies the current choice to every item.
+    - *Keep original* leaves that item as it is in the photo.
 - **Add pattern image** uploads any seamless (tileable) swatch for the current session.
 - **Rendering** sliders:
-  - *Global pattern size* scales every print.
-  - *Scene lighting* is the exposure.
-  - *Match photo colour* adds the photo's warm cast.
-  - *Fold warp* controls how strongly prints bend into folds.
+    - *Global pattern size* scales every print.
+    - *Scene lighting* is the exposure.
+    - *Match photo colour* adds the photo's warm cast.
+    - *Fold warp* controls how strongly prints bend into folds.
 - **Hold: original** shows the source photo while you hold the button.
 - **Copy share link** puts the whole loadout in the URL.
 - **Export PNG** saves the 3-angle strip at 2730×1504.
@@ -52,22 +52,22 @@ python tools/pack_assets.py    # embed everything into js/assets.js
 - **Segmentation** is classical computer vision, not AI. `tools/scribbles.py` holds a few
   hand-placed seed strokes per item and angle. A random walker grows them into full
   masks, using both colour variants of the same shot (`source/`) as features.
-  - To fix a mask, add or move a stroke and re-run.
-  - Check the result in `tools/work/seg*.png`.
+    - To fix a mask, add or move a stroke and re-run.
+    - Check the result in `tools/work/seg*.png`.
 - **Patterns** come in two groups, **Camo** and **Fabric**:
-  - `extract_patterns.py` takes full-loadout photos in the same pose (`source/patterns/`),
-    aligns them to the base photo, cuts out the shirt and pants using the item maps,
-    removes fold shading and lighting, and stitches a seamless tile (image quilting).
-    To add one, drop the photo in `source/patterns/` and add a line to `SOURCES`.
-  - `build_patterns.py` recreates real camos from their published colour palettes
-    (Flecktarn, Tropentarn, DPM, MARPAT, UCP, Croatian digital, Tiger stripe) and draws the
-    fabrics (denim, gingham, buffalo check, flannel, tartan, houndstooth, herringbone,
-    pinstripe, corduroy, ripstop, heather, Breton stripe).
-  - Each entry in `patterns.json` has a `scale` so prints appear at realistic size.
+    - `extract_patterns.py` takes full-loadout photos in the same pose (`source/patterns/`),
+      aligns them to the base photo, cuts out the shirt and pants using the item maps,
+      removes fold shading and lighting, and stitches a seamless tile (image quilting).
+      To add one, drop the photo in `source/patterns/` and add a line to `SOURCES`.
+    - `build_patterns.py` recreates real camos from their published colour palettes
+      (Flecktarn, Tropentarn, DPM, MARPAT, UCP, Croatian digital, Tiger stripe) and draws the
+      fabrics (denim, gingham, buffalo check, flannel, tartan, houndstooth, herringbone,
+      pinstripe, corduroy, ripstop, heather, Breton stripe).
+    - Each entry in `patterns.json` has a `scale` so prints appear at realistic size.
 - **Adding a pattern permanently:**
-  1. Drop a seamless image (ideally 512×512) into `assets/patterns/`.
-  2. Add an entry to `assets/patterns/patterns.json`.
-  3. Run `pack_assets.py`.
+    1. Drop a seamless image (ideally 512×512) into `assets/patterns/`.
+    2. Add an entry to `assets/patterns/patterns.json`.
+    3. Run `pack_assets.py`.
 - **Items:** helmet, headset, face cover, combat shirt, plate carrier and pack, chest
   pouches, belt, pistol holster, belt pouch, pants, knee pads, gloves, boots. The chest
   pouches always follow the plate carrier's selection (`LINKED` in `js/app.js`).
@@ -89,11 +89,11 @@ website itself.
 4. Pick the item that *should* be there with **1–9**, the list, or **Alt+click** on an
    area that already has it.
 5. Fix the problem:
-   - **Brush:** start the stroke inside the wrong colour and paint. With *Only repaint the
-     item I start on* enabled, neighbouring items are protected.
-   - **Fill (F):** reassigns a whole connected blob in one click.
-   - **Edge-aware:** limits both tools to pixels whose colour is similar to where you
-     started.
+    - **Brush:** start the stroke inside the wrong colour and paint. With *Only repaint the
+      item I start on* enabled, neighbouring items are protected.
+    - **Fill (F):** reassigns a whole connected blob in one click.
+    - **Edge-aware:** limits both tools to pixels whose colour is similar to where you
+      started.
 6. **Save & update app** (Ctrl+S) writes `tools/labels/angle*.png`, rebuilds the masks and
    `js/assets.js`, and updates `assets/meta.json`. Reload `index.html` to see the result.
 
