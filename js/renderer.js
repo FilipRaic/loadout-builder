@@ -160,12 +160,15 @@
                     masks: masks.map(m => this.texture(m)),
                 });
             }
-            for (const p of this.assets.patterns) await this.addPattern(p.id, p.src, p.scale);
+            for (const p of this.assets.patterns) await this.addPattern(p.id, p.src, p.scale, p.warp);
         }
 
-        async addPattern(id, src, scale) {
+        // warp: how much the print bends along folds (1 = full; checks and stripes use less)
+        async addPattern(id, src, scale, warp) {
             this.patternScale = this.patternScale || {};
+            this.patternWarp = this.patternWarp || {};
             this.patternScale[id] = scale || 1;
+            this.patternWarp[id] = warp ?? 1;
             const img = await loadImage(src);
             // WebGL needs power-of-two textures for REPEAT + mipmaps; resample if needed
             let el = img;
@@ -203,7 +206,6 @@
                 gl.uniform1i(P.u.uMask, 1);
                 gl.uniform1i(P.u.uPattern, 2);
                 gl.uniform2f(P.u.uImgSize, this.W, this.H);
-                gl.uniform1f(P.u.uWarp, state.warp);
                 gl.uniform1f(P.u.uExposure, state.exposure);
                 gl.uniform1f(P.u.uGrade, state.grade);
                 gl.uniform3fv(P.u.uTint, this.assets.tint || [1, 1, 1]);
@@ -228,6 +230,7 @@
                         // per-item offset so neighbouring garments don't line up unnaturally
                         gl.uniform2f(P.u.uOffset, (i * 0.37) % 1, (i * 0.61) % 1);
                         gl.uniform1f(P.u.uAngle, 0);
+                        gl.uniform1f(P.u.uWarp, state.warp * this.patternWarp[it.pattern]);
                     }
                     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
                 });

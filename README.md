@@ -1,13 +1,21 @@
-# Loadout Builder (prototype)
+<p align="center">
+  <img src="assets/social-preview.png" width="100%" alt="Loadout Builder: recolour real airsoft gear from three angles and see what matches before you buy">
+</p>
+
+# Loadout Builder
 
 This app recolours your gear photos directly. There's no AI in the loop and no server.
 The three angles are fixed photos. For each gear item, the app keeps the photo's
 shading (folds, shadows, highlights) and swaps the colour or camo underneath it.
 
+**Website:** [filipraic.github.io/loadout-builder](https://filipraic.github.io/loadout-builder/)
+
+---
+
 ## Run it
 
 Double-click `index.html`. It works straight from disk in Chrome, Edge or Firefox,
-which all support WebGL2.
+which all support WebGL2. Or use the [website](https://filipraic.github.io/loadout-builder/).
 
 - **Presets** give you a quick starting point.
 - **Gear**: click an item, then pick a pattern, a solid colour, or a custom colour.
@@ -23,6 +31,11 @@ which all support WebGL2.
 - **Hold: original** shows the source photo while you hold the button.
 - **Copy share link** puts the whole loadout in the URL.
 - **Export PNG** saves the 3-angle strip at 2730×1504.
+- **Feedback** opens a short form that is emailed to the maintainer (no account needed),
+  optionally with a link to the current loadout and the sender's email for a reply. There's
+  no server, so [FormSubmit](https://formsubmit.co/) relays it (`FEEDBACK_ENDPOINT` in
+  `js/app.js`). *Send via* switches between email (the default) and a pre-filled public
+  GitHub issue (needs a GitHub account). *Request it* under the patterns opens the same form.
 
 ## How it works
 
@@ -44,8 +57,7 @@ pattern/colour swatch ─────────┘       ▲ pattern lookup di
 pip install -r tools/requirements.txt
 python tools/segment.py        # first-time masks only (see Mask Editor below; --force overwrites edits)
 python tools/build_assets.py   # base / shading / soft masks per angle -> assets/
-python tools/extract_patterns.py # real camo taken from reference photos in source/patterns/
-python tools/build_patterns.py  # recreated camo (real palettes) + fabrics -> assets/patterns/
+python tools/build_patterns.py  # real camo + fabric swatches (downloaded) -> assets/patterns/
 python tools/pack_assets.py    # embed everything into js/assets.js
 ```
 
@@ -54,20 +66,19 @@ python tools/pack_assets.py    # embed everything into js/assets.js
   masks, using both colour variants of the same shot (`source/`) as features.
     - To fix a mask, add or move a stroke and re-run.
     - Check the result in `tools/work/seg*.png`.
-- **Patterns** come in two groups, **Camo** and **Fabric**:
-    - `extract_patterns.py` takes full-loadout photos in the same pose (`source/patterns/`),
-      aligns them to the base photo, cuts out the shirt and pants using the item maps,
-      removes fold shading and lighting, and stitches a seamless tile (image quilting).
-      To add one, drop the photo in `source/patterns/` and add a line to `SOURCES`.
-    - `build_patterns.py` recreates real camos from their published colour palettes
-      (Flecktarn, Tropentarn, DPM, MARPAT, UCP, Croatian digital, Tiger stripe) and draws the
-      fabrics (denim, gingham, buffalo check, flannel, tartan, houndstooth, herringbone,
-      pinstripe, corduroy, ripstop, heather, Breton stripe).
-    - Each entry in `patterns.json` has a `scale` so prints appear at realistic size.
+- **Patterns** are photos or scans of the real fabric, never generated. They come in two
+  groups, **Camo** and **Fabric**. `build_patterns.py` lists every source in `PATTERNS`:
+    - **Camo** swatches come from Wikimedia Commons. The script crops the usable area,
+      evens out the lighting and stitches a seamless tile (image quilting).
+    - **Fabric** swatches are photo scans from Poly Haven and ambientCG (CC0) that already tile.
+    - Each entry has a physical size (`tile_cm`), turned into the `scale` in `patterns.json`
+      so prints appear at a realistic size.
+    - Downloads are cached in `tools/work/swatches/`. Sources, authors and licences are in
+      [`assets/patterns/CREDITS.md`](assets/patterns/CREDITS.md), which the script writes.
 - **Adding a pattern permanently:**
-    1. Drop a seamless image (ideally 512×512) into `assets/patterns/`.
-    2. Add an entry to `assets/patterns/patterns.json`.
-    3. Run `pack_assets.py`.
+    1. Find an openly licensed photo or scan of the real pattern (a flat, evenly lit swatch works best).
+    2. Add a line to `PATTERNS` in `tools/build_patterns.py` with the crop area and physical size.
+    3. Run `python tools/build_patterns.py <id>` and then `pack_assets.py`.
 - **Items:** helmet, headset, face cover, combat shirt, plate carrier and pack, chest
   pouches, belt, pistol holster, belt pouch, pants, knee pads, gloves, boots. The chest
   pouches always follow the plate carrier's selection (`LINKED` in `js/app.js`).
@@ -107,9 +118,13 @@ Running `python tools/build_assets.py` gives the same masks as the editor.
   sharper result, re-render the base set at a higher resolution and redo the masks.
 - The masks are good but not perfect. A few pixels at some item boundaries go to the
   wrong item. Fix these with extra strokes in `scribbles.py`.
-- Extracted camos come from 455-px-wide AI images, so fine details (MultiCam twigs,
-  6-colour desert rocks) are softer than on real fabric. A flat scan of real fabric
-  dropped into `assets/patterns/` would be sharper.
+- Some camo sources are small or photographed on worn fabric, so a few swatches
+  (Flecktarn photo, 6-colour desert) show slight blending seams. A flat, evenly lit scan of
+  the fabric makes a better source.
+- Croatian digital, tiger stripe, buffalo check, houndstooth, tartan and ripstop were
+  dropped because no openly licensed photo good enough was found. They can come back
+  once one is.
+- Some swatches are CC BY-SA or CC BY. Keep `CREDITS.md` with the app when you publish it.
 - MultiCam is a trademark of Crye Precision. Fine for club use; avoid it on a commercial site.
 - Prints follow the folds, but not the 3D curvature of the body. Adding a depth or
   normal map per angle would improve this.
