@@ -1,468 +1,468 @@
 [
- {
-  "id": "woodland_m81",
-  "name": "Woodland (M81)",
-  "group": "Camo",
-  "scale": 1.122,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "\"M81\" U.S. woodland camouflage pattern swatch.png",
-   "url": "https://commons.wikimedia.org/wiki/File:%22M81%22_U.S._woodland_camouflage_pattern_swatch.png",
-   "license": "Public domain",
-   "author": "U.S. Army"
+  {
+    "id": "woodland_m81",
+    "name": "Woodland (M81)",
+    "group": "Camo",
+    "scale": 1.122,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "\"M81\" U.S. woodland camouflage pattern swatch.png",
+      "url": "https://commons.wikimedia.org/wiki/File:%22M81%22_U.S._woodland_camouflage_pattern_swatch.png",
+      "license": "Public domain",
+      "author": "U.S. Army"
+    }
+  },
+  {
+    "id": "multicam",
+    "name": "MultiCam",
+    "group": "Camo",
+    "scale": 0.816,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "Multicam pattern (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Multicam_pattern_(cropped).jpg",
+      "license": "Public domain",
+      "author": "Chikumaya"
+    }
+  },
+  {
+    "id": "multicam_tropic",
+    "name": "MultiCam Tropic",
+    "group": "Camo",
+    "scale": 0.816,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "TROPIC MULTICAM (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:TROPIC_MULTICAM_(cropped).jpg",
+      "license": "Public domain",
+      "author": "Unknown author"
+    }
+  },
+  {
+    "id": "multicam_black",
+    "name": "MultiCam Black",
+    "group": "Camo",
+    "scale": 0.816,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "BLACK MULTICAM.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:BLACK_MULTICAM.jpg",
+      "license": "Public domain",
+      "author": "Unknown author"
+    }
+  },
+  {
+    "id": "desert_dcu",
+    "name": "Desert 3-colour (DCU)",
+    "group": "Camo",
+    "scale": 1.02,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "DCU camo swatch (cropped).png",
+      "url": "https://commons.wikimedia.org/wiki/File:DCU_camo_swatch_(cropped).png",
+      "license": "Public domain",
+      "author": "US Army"
+    }
+  },
+  {
+    "id": "desert_6color",
+    "name": "Desert 6-colour (chocolate chip)",
+    "group": "Camo",
+    "scale": 0.449,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "Six-Color Desert Pattern.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Six-Color_Desert_Pattern.jpg",
+      "license": "CC BY-SA 3.0",
+      "author": "The original uploader was Pretzelpaws at English Wikipedia."
+    }
+  },
+  {
+    "id": "flecktarn",
+    "name": "Flecktarn",
+    "group": "Camo",
+    "scale": 0.816,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "Flecktarn pattern.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Flecktarn_pattern.jpg",
+      "license": "CC BY-SA 3.0",
+      "author": "Thimbleweed"
+    }
+  },
+  {
+    "id": "tropentarn",
+    "name": "Tropentarn",
+    "group": "Camo",
+    "scale": 0.735,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "Tropentarn Fabric (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Tropentarn_Fabric_(cropped).jpg",
+      "license": "CC BY-SA 4.0",
+      "author": "Murchison-Eye"
+    }
+  },
+  {
+    "id": "dpm",
+    "name": "DPM (British)",
+    "group": "Camo",
+    "scale": 0.816,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "DPM Combat 95 Camouflage Material MOD 45149982 (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:DPM_Combat_95_Camouflage_Material_MOD_45149982_(cropped).jpg",
+      "license": "OGL v1.0",
+      "author": "Cpl Adrian Harlen RLC"
+    }
+  },
+  {
+    "id": "marpat_woodland",
+    "name": "MARPAT woodland",
+    "group": "Camo",
+    "scale": 0.449,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "MARPAT woodland pattern.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:MARPAT_woodland_pattern.jpg",
+      "license": "Public domain",
+      "author": "created by Henrik Clausen, uploaded by Novis-M"
+    }
+  },
+  {
+    "id": "marpat_desert",
+    "name": "MARPAT desert",
+    "group": "Camo",
+    "scale": 0.816,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "MARPAT desert camouflage swatch, 24.55\" (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:MARPAT_desert_camouflage_swatch,_24.55%22_(cropped).jpg",
+      "license": "Public domain",
+      "author": "USMC"
+    }
+  },
+  {
+    "id": "ucp",
+    "name": "UCP / ACU",
+    "group": "Camo",
+    "scale": 0.612,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "ACU Universal Camouflage Pattern.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:ACU_Universal_Camouflage_Pattern.jpg",
+      "license": "Public domain",
+      "author": "Novis-M"
+    }
+  },
+  {
+    "id": "cadpat",
+    "name": "CADPAT (temperate)",
+    "group": "Camo",
+    "scale": 0.735,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "Temperate CADPAT camouflage pattern swatch.png",
+      "url": "https://commons.wikimedia.org/wiki/File:Temperate_CADPAT_camouflage_pattern_swatch.png",
+      "license": "Public domain",
+      "author": "Canadian government"
+    }
+  },
+  {
+    "id": "m05",
+    "name": "M05 woodland (Finnish)",
+    "group": "Camo",
+    "scale": 0.612,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "M05 woodland pattern (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:M05_woodland_pattern_(cropped).jpg",
+      "license": "Public domain",
+      "author": "Pekka Vilhunen"
+    }
+  },
+  {
+    "id": "brushstroke",
+    "name": "Rhodesian brushstroke",
+    "group": "Camo",
+    "scale": 0.816,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "Rhodesian Brushstroke pattern (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Rhodesian_Brushstroke_pattern_(cropped).jpg",
+      "license": "CC BY-SA 3.0",
+      "author": "User:Katangais"
+    }
+  },
+  {
+    "id": "urban_grey",
+    "name": "Urban (M81 city)",
+    "group": "Camo",
+    "scale": 1.122,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "US City Camo (M81 Urban).png",
+      "url": "https://commons.wikimedia.org/wiki/File:US_City_Camo_(M81_Urban).png",
+      "license": "CC BY 4.0",
+      "author": "ColdNighaMafia"
+    }
+  },
+  {
+    "id": "blue_urban",
+    "name": "Navy blue digital (NWU)",
+    "group": "Camo",
+    "scale": 0.531,
+    "credit": {
+      "site": "Wikimedia Commons",
+      "title": "NWU Type I camouflage pattern swatch (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:NWU_Type_I_camouflage_pattern_swatch_(cropped).jpg",
+      "license": "Public domain",
+      "author": "U.S. Navy"
+    }
+  },
+  {
+    "id": "denim_indigo",
+    "name": "Denim (indigo)",
+    "group": "Fabric",
+    "scale": 0.408,
+    "credit": {
+      "site": "ambientCG",
+      "title": "Fabric069",
+      "url": "https://ambientcg.com/a/Fabric069",
+      "license": "CC0",
+      "author": "ambientCG"
+    }
+  },
+  {
+    "id": "denim_light",
+    "name": "Denim (light wash)",
+    "group": "Fabric",
+    "scale": 0.557,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Denim Fabric 04",
+      "url": "https://polyhaven.com/a/denim_fabric_04",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
+  },
+  {
+    "id": "denim_dark",
+    "name": "Denim (dark rinse)",
+    "group": "Fabric",
+    "scale": 0.519,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Denim Fabric 06",
+      "url": "https://polyhaven.com/a/denim_fabric_06",
+      "license": "CC0",
+      "author": "Greg Zaal, Rico Cilliers"
+    }
+  },
+  {
+    "id": "denim_grey",
+    "name": "Denim (grey)",
+    "group": "Fabric",
+    "scale": 0.551,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Denim Fabric 05",
+      "url": "https://polyhaven.com/a/denim_fabric_05",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
+  },
+  {
+    "id": "gingham_green",
+    "name": "Gingham (green)",
+    "group": "Fabric",
+    "scale": 0.579,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Gingham Check",
+      "url": "https://polyhaven.com/a/gingham_check",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
+  },
+  {
+    "id": "plaid_red",
+    "name": "Madras plaid (red)",
+    "group": "Fabric",
+    "scale": 0.612,
+    "warp": 0.0,
+    "credit": {
+      "site": "ambientCG",
+      "title": "Fabric080",
+      "url": "https://ambientcg.com/a/Fabric080",
+      "license": "CC0",
+      "author": "ambientCG"
+    }
+  },
+  {
+    "id": "glen_check",
+    "name": "Glen check",
+    "group": "Fabric",
+    "scale": 0.642,
+    "warp": 0.0,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Wool Boucle",
+      "url": "https://polyhaven.com/a/wool_boucle",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
+  },
+  {
+    "id": "check_grey",
+    "name": "Check (grey)",
+    "group": "Fabric",
+    "scale": 0.286,
+    "warp": 0.0,
+    "credit": {
+      "site": "ambientCG",
+      "title": "Fabric083",
+      "url": "https://ambientcg.com/a/Fabric083",
+      "license": "CC0",
+      "author": "ambientCG"
+    }
+  },
+  {
+    "id": "check_green",
+    "name": "Check (green)",
+    "group": "Fabric",
+    "scale": 0.286,
+    "warp": 0.0,
+    "credit": {
+      "site": "ambientCG",
+      "title": "Fabric078",
+      "url": "https://ambientcg.com/a/Fabric078",
+      "license": "CC0",
+      "author": "ambientCG"
+    }
+  },
+  {
+    "id": "herringbone",
+    "name": "Herringbone (grey wool)",
+    "group": "Fabric",
+    "scale": 0.551,
+    "warp": 0.0,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Poly Wool Herringbone",
+      "url": "https://polyhaven.com/a/poly_wool_herringbone",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
+  },
+  {
+    "id": "pinstripe_blue",
+    "name": "Pinstripe (blue)",
+    "group": "Fabric",
+    "scale": 0.327,
+    "warp": 0.0,
+    "credit": {
+      "site": "ambientCG",
+      "title": "Fabric072",
+      "url": "https://ambientcg.com/a/Fabric072",
+      "license": "CC0",
+      "author": "ambientCG"
+    }
+  },
+  {
+    "id": "stripe_navy",
+    "name": "Nautical stripe",
+    "group": "Fabric",
+    "scale": 0.367,
+    "warp": 0.0,
+    "credit": {
+      "site": "ambientCG",
+      "title": "Fabric071",
+      "url": "https://ambientcg.com/a/Fabric071",
+      "license": "CC0",
+      "author": "ambientCG"
+    }
+  },
+  {
+    "id": "stripe_ticking",
+    "name": "Ticking stripe",
+    "group": "Fabric",
+    "scale": 0.367,
+    "warp": 0.0,
+    "credit": {
+      "site": "ambientCG",
+      "title": "Fabric076",
+      "url": "https://ambientcg.com/a/Fabric076",
+      "license": "CC0",
+      "author": "ambientCG"
+    }
+  },
+  {
+    "id": "stripe_black",
+    "name": "Pencil stripe (black)",
+    "group": "Fabric",
+    "scale": 0.204,
+    "warp": 0.0,
+    "credit": {
+      "site": "ambientCG",
+      "title": "Fabric079",
+      "url": "https://ambientcg.com/a/Fabric079",
+      "license": "CC0",
+      "author": "ambientCG"
+    }
+  },
+  {
+    "id": "corduroy_sage",
+    "name": "Corduroy (sage)",
+    "group": "Fabric",
+    "scale": 0.544,
+    "warp": 0.0,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Ribbed Corduroy",
+      "url": "https://polyhaven.com/a/ribbed_corduroy",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
+  },
+  {
+    "id": "heather_grey",
+    "name": "Heather grey",
+    "group": "Fabric",
+    "scale": 0.558,
+    "warp": 0.0,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Jogging Melange",
+      "url": "https://polyhaven.com/a/jogging_melange",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
+  },
+  {
+    "id": "heather_blue",
+    "name": "Heather blue",
+    "group": "Fabric",
+    "scale": 0.593,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Jersey Melange",
+      "url": "https://polyhaven.com/a/jersey_melange",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
+  },
+  {
+    "id": "linen_blue",
+    "name": "Linen (blue)",
+    "group": "Fabric",
+    "scale": 0.552,
+    "credit": {
+      "site": "Poly Haven",
+      "title": "Rough Linen",
+      "url": "https://polyhaven.com/a/rough_linen",
+      "license": "CC0",
+      "author": "colormass, Rico Cilliers"
+    }
   }
- },
- {
-  "id": "multicam",
-  "name": "MultiCam",
-  "group": "Camo",
-  "scale": 0.816,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "Multicam pattern (cropped).jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:Multicam_pattern_(cropped).jpg",
-   "license": "Public domain",
-   "author": "Chikumaya"
-  }
- },
- {
-  "id": "multicam_tropic",
-  "name": "MultiCam Tropic",
-  "group": "Camo",
-  "scale": 0.816,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "TROPIC MULTICAM (cropped).jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:TROPIC_MULTICAM_(cropped).jpg",
-   "license": "Public domain",
-   "author": "Unknown author"
-  }
- },
- {
-  "id": "multicam_black",
-  "name": "MultiCam Black",
-  "group": "Camo",
-  "scale": 0.816,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "BLACK MULTICAM.jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:BLACK_MULTICAM.jpg",
-   "license": "Public domain",
-   "author": "Unknown author"
-  }
- },
- {
-  "id": "desert_dcu",
-  "name": "Desert 3-colour (DCU)",
-  "group": "Camo",
-  "scale": 1.02,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "DCU camo swatch (cropped).png",
-   "url": "https://commons.wikimedia.org/wiki/File:DCU_camo_swatch_(cropped).png",
-   "license": "Public domain",
-   "author": "US Army"
-  }
- },
- {
-  "id": "desert_6color",
-  "name": "Desert 6-colour (chocolate chip)",
-  "group": "Camo",
-  "scale": 0.449,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "Six-Color Desert Pattern.jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:Six-Color_Desert_Pattern.jpg",
-   "license": "CC BY-SA 3.0",
-   "author": "The original uploader was Pretzelpaws at English Wikipedia."
-  }
- },
- {
-  "id": "flecktarn",
-  "name": "Flecktarn",
-  "group": "Camo",
-  "scale": 0.816,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "Flecktarn pattern.jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:Flecktarn_pattern.jpg",
-   "license": "CC BY-SA 3.0",
-   "author": "Thimbleweed"
-  }
- },
- {
-  "id": "tropentarn",
-  "name": "Tropentarn",
-  "group": "Camo",
-  "scale": 0.735,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "Tropentarn Fabric (cropped).jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:Tropentarn_Fabric_(cropped).jpg",
-   "license": "CC BY-SA 4.0",
-   "author": "Murchison-Eye"
-  }
- },
- {
-  "id": "dpm",
-  "name": "DPM (British)",
-  "group": "Camo",
-  "scale": 0.816,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "DPM Combat 95 Camouflage Material MOD 45149982 (cropped).jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:DPM_Combat_95_Camouflage_Material_MOD_45149982_(cropped).jpg",
-   "license": "OGL v1.0",
-   "author": "Cpl Adrian Harlen RLC"
-  }
- },
- {
-  "id": "marpat_woodland",
-  "name": "MARPAT woodland",
-  "group": "Camo",
-  "scale": 0.449,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "MARPAT woodland pattern.jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:MARPAT_woodland_pattern.jpg",
-   "license": "Public domain",
-   "author": "created by Henrik Clausen, uploaded by Novis-M"
-  }
- },
- {
-  "id": "marpat_desert",
-  "name": "MARPAT desert",
-  "group": "Camo",
-  "scale": 0.816,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "MARPAT desert camouflage swatch, 24.55\" (cropped).jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:MARPAT_desert_camouflage_swatch,_24.55%22_(cropped).jpg",
-   "license": "Public domain",
-   "author": "USMC"
-  }
- },
- {
-  "id": "ucp",
-  "name": "UCP / ACU",
-  "group": "Camo",
-  "scale": 0.612,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "ACU Universal Camouflage Pattern.jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:ACU_Universal_Camouflage_Pattern.jpg",
-   "license": "Public domain",
-   "author": "Novis-M"
-  }
- },
- {
-  "id": "cadpat",
-  "name": "CADPAT (temperate)",
-  "group": "Camo",
-  "scale": 0.735,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "Temperate CADPAT camouflage pattern swatch.png",
-   "url": "https://commons.wikimedia.org/wiki/File:Temperate_CADPAT_camouflage_pattern_swatch.png",
-   "license": "Public domain",
-   "author": "Canadian government"
-  }
- },
- {
-  "id": "m05",
-  "name": "M05 woodland (Finnish)",
-  "group": "Camo",
-  "scale": 0.612,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "M05 woodland pattern (cropped).jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:M05_woodland_pattern_(cropped).jpg",
-   "license": "Public domain",
-   "author": "Pekka Vilhunen"
-  }
- },
- {
-  "id": "brushstroke",
-  "name": "Rhodesian brushstroke",
-  "group": "Camo",
-  "scale": 0.816,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "Rhodesian Brushstroke pattern (cropped).jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:Rhodesian_Brushstroke_pattern_(cropped).jpg",
-   "license": "CC BY-SA 3.0",
-   "author": "User:Katangais"
-  }
- },
- {
-  "id": "urban_grey",
-  "name": "Urban (M81 city)",
-  "group": "Camo",
-  "scale": 1.122,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "US City Camo (M81 Urban).png",
-   "url": "https://commons.wikimedia.org/wiki/File:US_City_Camo_(M81_Urban).png",
-   "license": "CC BY 4.0",
-   "author": "ColdNighaMafia"
-  }
- },
- {
-  "id": "blue_urban",
-  "name": "Navy blue digital (NWU)",
-  "group": "Camo",
-  "scale": 0.531,
-  "credit": {
-   "site": "Wikimedia Commons",
-   "title": "NWU Type I camouflage pattern swatch (cropped).jpg",
-   "url": "https://commons.wikimedia.org/wiki/File:NWU_Type_I_camouflage_pattern_swatch_(cropped).jpg",
-   "license": "Public domain",
-   "author": "U.S. Navy"
-  }
- },
- {
-  "id": "denim_indigo",
-  "name": "Denim (indigo)",
-  "group": "Fabric",
-  "scale": 0.408,
-  "credit": {
-   "site": "ambientCG",
-   "title": "Fabric069",
-   "url": "https://ambientcg.com/a/Fabric069",
-   "license": "CC0",
-   "author": "ambientCG"
-  }
- },
- {
-  "id": "denim_light",
-  "name": "Denim (light wash)",
-  "group": "Fabric",
-  "scale": 0.557,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Denim Fabric 04",
-   "url": "https://polyhaven.com/a/denim_fabric_04",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- },
- {
-  "id": "denim_dark",
-  "name": "Denim (dark rinse)",
-  "group": "Fabric",
-  "scale": 0.519,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Denim Fabric 06",
-   "url": "https://polyhaven.com/a/denim_fabric_06",
-   "license": "CC0",
-   "author": "Greg Zaal, Rico Cilliers"
-  }
- },
- {
-  "id": "denim_grey",
-  "name": "Denim (grey)",
-  "group": "Fabric",
-  "scale": 0.551,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Denim Fabric 05",
-   "url": "https://polyhaven.com/a/denim_fabric_05",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- },
- {
-  "id": "gingham_green",
-  "name": "Gingham (green)",
-  "group": "Fabric",
-  "scale": 0.579,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Gingham Check",
-   "url": "https://polyhaven.com/a/gingham_check",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- },
- {
-  "id": "plaid_red",
-  "name": "Madras plaid (red)",
-  "group": "Fabric",
-  "scale": 0.612,
-  "warp": 0.0,
-  "credit": {
-   "site": "ambientCG",
-   "title": "Fabric080",
-   "url": "https://ambientcg.com/a/Fabric080",
-   "license": "CC0",
-   "author": "ambientCG"
-  }
- },
- {
-  "id": "glen_check",
-  "name": "Glen check",
-  "group": "Fabric",
-  "scale": 0.642,
-  "warp": 0.0,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Wool Boucle",
-   "url": "https://polyhaven.com/a/wool_boucle",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- },
- {
-  "id": "check_grey",
-  "name": "Check (grey)",
-  "group": "Fabric",
-  "scale": 0.286,
-  "warp": 0.0,
-  "credit": {
-   "site": "ambientCG",
-   "title": "Fabric083",
-   "url": "https://ambientcg.com/a/Fabric083",
-   "license": "CC0",
-   "author": "ambientCG"
-  }
- },
- {
-  "id": "check_green",
-  "name": "Check (green)",
-  "group": "Fabric",
-  "scale": 0.286,
-  "warp": 0.0,
-  "credit": {
-   "site": "ambientCG",
-   "title": "Fabric078",
-   "url": "https://ambientcg.com/a/Fabric078",
-   "license": "CC0",
-   "author": "ambientCG"
-  }
- },
- {
-  "id": "herringbone",
-  "name": "Herringbone (grey wool)",
-  "group": "Fabric",
-  "scale": 0.551,
-  "warp": 0.0,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Poly Wool Herringbone",
-   "url": "https://polyhaven.com/a/poly_wool_herringbone",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- },
- {
-  "id": "pinstripe_blue",
-  "name": "Pinstripe (blue)",
-  "group": "Fabric",
-  "scale": 0.327,
-  "warp": 0.0,
-  "credit": {
-   "site": "ambientCG",
-   "title": "Fabric072",
-   "url": "https://ambientcg.com/a/Fabric072",
-   "license": "CC0",
-   "author": "ambientCG"
-  }
- },
- {
-  "id": "stripe_navy",
-  "name": "Nautical stripe",
-  "group": "Fabric",
-  "scale": 0.367,
-  "warp": 0.0,
-  "credit": {
-   "site": "ambientCG",
-   "title": "Fabric071",
-   "url": "https://ambientcg.com/a/Fabric071",
-   "license": "CC0",
-   "author": "ambientCG"
-  }
- },
- {
-  "id": "stripe_ticking",
-  "name": "Ticking stripe",
-  "group": "Fabric",
-  "scale": 0.367,
-  "warp": 0.0,
-  "credit": {
-   "site": "ambientCG",
-   "title": "Fabric076",
-   "url": "https://ambientcg.com/a/Fabric076",
-   "license": "CC0",
-   "author": "ambientCG"
-  }
- },
- {
-  "id": "stripe_black",
-  "name": "Pencil stripe (black)",
-  "group": "Fabric",
-  "scale": 0.204,
-  "warp": 0.0,
-  "credit": {
-   "site": "ambientCG",
-   "title": "Fabric079",
-   "url": "https://ambientcg.com/a/Fabric079",
-   "license": "CC0",
-   "author": "ambientCG"
-  }
- },
- {
-  "id": "corduroy_sage",
-  "name": "Corduroy (sage)",
-  "group": "Fabric",
-  "scale": 0.544,
-  "warp": 0.0,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Ribbed Corduroy",
-   "url": "https://polyhaven.com/a/ribbed_corduroy",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- },
- {
-  "id": "heather_grey",
-  "name": "Heather grey",
-  "group": "Fabric",
-  "scale": 0.558,
-  "warp": 0.0,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Jogging Melange",
-   "url": "https://polyhaven.com/a/jogging_melange",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- },
- {
-  "id": "heather_blue",
-  "name": "Heather blue",
-  "group": "Fabric",
-  "scale": 0.593,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Jersey Melange",
-   "url": "https://polyhaven.com/a/jersey_melange",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- },
- {
-  "id": "linen_blue",
-  "name": "Linen (blue)",
-  "group": "Fabric",
-  "scale": 0.552,
-  "credit": {
-   "site": "Poly Haven",
-   "title": "Rough Linen",
-   "url": "https://polyhaven.com/a/rough_linen",
-   "license": "CC0",
-   "author": "colormass, Rico Cilliers"
-  }
- }
 ]

@@ -1,664 +1,45 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Loadout Builder</title>
-    <meta content="Recolour real airsoft gear from three angles and see what matches before you buy."
-          name="description">
-    <meta content="#15171a" name="theme-color">
-    <meta content="Loadout Builder" property="og:title">
-    <meta content="Recolour real airsoft gear from three angles and see what matches before you buy."
-          property="og:description">
-    <meta content="website" property="og:type">
-    <meta content="https://filipraic.github.io/loadout-builder/" property="og:url">
-    <meta content="https://filipraic.github.io/loadout-builder/assets/social-preview.png" property="og:image">
-    <meta content="summary_large_image" name="twitter:card">
-    <link href="assets/favicon.svg" rel="icon" type="image/svg+xml">
-    <style>
-        :root {
-            --bg: #15171a;
-            --panel: #1d2024;
-            --panel2: #25292e;
-            --line: #33383f;
-            --text: #e6e8ea;
-            --muted: #9aa1a9;
-            --accent: #c9a86a;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html, body {
-            margin: 0;
-            height: 100%;
-            background: var(--bg);
-            color: var(--text);
-            font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-        }
-
-        button {
-            font: inherit;
-            color: inherit;
-            cursor: pointer;
-        }
-
-        .app {
-            display: grid;
-            grid-template-columns: 340px 1fr;
-            height: 100vh;
-        }
-
-        aside {
-            background: var(--panel);
-            border-right: 1px solid var(--line);
-            overflow-y: auto;
-            padding: 16px;
-        }
-
-        main {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        h1 {
-            font-size: 17px;
-            margin: 0;
-            letter-spacing: .02em;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-
-        .brand img {
-            width: 30px;
-            height: 30px;
-            flex: none;
-        }
-
-        a {
-            color: var(--accent);
-        }
-
-        h2 {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            color: var(--muted);
-            margin: 18px 0 8px;
-            font-weight: 600;
-        }
-
-        .sub {
-            color: var(--muted);
-            font-size: 12px;
-            margin: 0;
-        }
-
-        .items {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .item {
-            display: grid;
-            grid-template-columns: 26px 1fr auto;
-            align-items: center;
-            gap: 10px;
-            padding: 7px 8px;
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            text-align: left;
-        }
-
-        .item:hover {
-            background: var(--panel2);
-        }
-
-        .item.active {
-            background: var(--panel2);
-            border-color: var(--accent);
-        }
-
-        .item .sw {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, .15);
-        }
-
-        .item .val {
-            color: var(--muted);
-            font-size: 12px;
-            max-width: 120px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .picker {
-            background: var(--panel2);
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 10px;
-        }
-
-        .picker h3 {
-            margin: 0 0 10px;
-            font-size: 14px;
-        }
-
-        .patterns {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-        }
-
-        .patterns .group {
-            grid-column: 1 / -1;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            color: var(--muted);
-            margin: 6px 0 0;
-            font-weight: 600;
-        }
-
-        .patterns .group:first-child {
-            margin-top: 0;
-        }
-
-        .patterns {
-            max-height: 340px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .tile {
-            background: none;
-            border: 2px solid transparent;
-            border-radius: 8px;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        .tile .img {
-            display: block;
-            height: 46px;
-        }
-
-        .tile .cap {
-            display: block;
-            font-size: 10.5px;
-            padding: 3px 4px;
-            background: #111;
-            color: var(--muted);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .tile.on, .chip.on {
-            border-color: var(--accent);
-        }
-
-        .solids {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 6px;
-            margin-top: 10px;
-        }
-
-        .chip {
-            aspect-ratio: 1;
-            border-radius: 7px;
-            border: 2px solid rgba(255, 255, 255, .12);
-        }
-
-        .row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .row input[type=range] {
-            flex: 1;
-            accent-color: var(--accent);
-        }
-
-        .row .v {
-            width: 42px;
-            text-align: right;
-            color: var(--text);
-        }
-
-        .btns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 10px;
-        }
-
-        .btn {
-            background: #30353b;
-            border: 1px solid var(--line);
-            border-radius: 7px;
-            padding: 6px 10px;
-            font-size: 12px;
-        }
-
-        .btn:hover {
-            border-color: var(--muted);
-        }
-
-        .btn:focus-visible, .item:focus-visible, .tile:focus-visible, .chip:focus-visible, .preset:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        a.btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        button.btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn svg {
-            width: 15px;
-            height: 15px;
-            flex: none;
-        }
-
-        .btn.primary {
-            background: var(--accent);
-            color: #1a1a1a;
-            border-color: var(--accent);
-            font-weight: 600;
-        }
-
-        input[type=color] {
-            width: 34px;
-            height: 28px;
-            border: none;
-            background: none;
-            padding: 0;
-            cursor: pointer;
-        }
-
-        label.btn input {
-            display: none;
-        }
-
-        .presets {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .preset {
-            background: #2a2e33;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 5px 11px;
-            font-size: 12px;
-        }
-
-        .preset:hover {
-            border-color: var(--accent);
-        }
-
-        .toolbar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            border-bottom: 1px solid var(--line);
-            background: var(--panel);
-            flex-wrap: wrap;
-        }
-
-        .toolbar .spacer {
-            flex: 1;
-        }
-
-        .stage {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            min-height: 0;
-        }
-
-        canvas {
-            max-width: 100%;
-            max-height: 100%;
-            aspect-ratio: 1365 / 752;
-            border-radius: 8px;
-            background: #000;
-            box-shadow: 0 6px 30px rgba(0, 0, 0, .5);
-        }
-
-        .loading {
-            position: absolute;
-            color: var(--muted);
-        }
-
-        body.ready .loading {
-            display: none;
-        }
-
-        .note {
-            font-size: 11.5px;
-            color: var(--muted);
-            margin-top: 14px;
-            line-height: 1;
-        }
-
-        .horizontal-divider {
-            margin-top: 14px;
-            display: flex;
-            border-top: 1px solid var(--line);
-        }
-
-        #error {
-            color: #ff8a80;
-            padding: 20px;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 18px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: #000c;
-            padding: 8px 14px;
-            border-radius: 8px;
-            opacity: 0;
-            transition: .2s;
-            pointer-events: none;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%);
-        }
-
-        dialog {
-            width: min(460px, calc(100vw - 32px));
-            background: var(--panel);
-            color: var(--text);
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 18px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
-        }
-
-        dialog::backdrop {
-            background: rgba(0, 0, 0, .55);
-        }
-
-        dialog h3 {
-            margin: 0 0 4px;
-            font-size: 16px;
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 12px;
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .field input, .field textarea {
-            font: inherit;
-            font-size: 13px;
-            color: var(--text);
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: 7px;
-            padding: 8px 10px;
-            resize: vertical;
-        }
-
-        .field input:focus, .field textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .kinds {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: 12px 0 0;
-            border: 0;
-            padding: 0;
-        }
-
-        .kinds label {
-            cursor: pointer;
-        }
-
-        .kinds input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .kinds span {
-            display: inline-block;
-            background: #2a2e33;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 5px 11px;
-            font-size: 12px;
-        }
-
-        .kinds input:checked + span {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .kinds input:focus-visible + span {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        .check {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .check input {
-            accent-color: var(--accent);
-        }
-
-        .via {
-            border: 0;
-            padding: 0;
-            margin: 14px 0 0;
-        }
-
-        .via legend {
-            padding: 0;
-            margin-bottom: 5px;
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .seg {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3px;
-            padding: 3px;
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: 9px;
-        }
-
-        .seg label {
-            cursor: pointer;
-        }
-
-        .seg input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .seg span {
-            display: block;
-            text-align: center;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            color: var(--muted);
-        }
-
-        .seg input:checked + span {
-            background: var(--panel2);
-            color: var(--text);
-            box-shadow: inset 0 0 0 1px var(--accent);
-        }
-
-        .seg input:focus-visible + span {
-            outline: 2px solid var(--accent);
-            outline-offset: 1px;
-        }
-
-        .field[hidden] {
-            display: none;
-        }
-
-        .field .opt {
-            color: #6f767e;
-        }
-
-        .honey {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .note.error {
-            color: #ff8a80;
-        }
-
-        .dlg-btns {
-            display: flex;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 16px;
-        }
-
-        /* scrollbars matching the dark theme */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: #3d434a transparent;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #3d434a;
-            border-radius: 999px;
-            border: 2px solid var(--panel);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #4f565e;
-        }
-
-        ::-webkit-scrollbar-thumb:active {
-            background: var(--accent);
-        }
-
-        ::-webkit-scrollbar-corner {
-            background: transparent;
-        }
-
-        html {
-            color-scheme: dark;
-        }
-
-        @media (max-width: 820px) {
-            .app {
-                grid-template-columns: 1fr;
-                height: auto;
-            }
-
-            main {
-                order: -1;
-                position: sticky;
-                top: 0;
-                z-index: 10;
-                background: var(--bg);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, .5);
-            }
-
-            aside {
-                border-right: none;
-                border-top: 1px solid var(--line);
-            }
-
-            .toolbar {
-                padding: 6px 8px;
-                gap: 6px;
-            }
-
-            .stage {
-                padding: 8px;
-            }
-
-            .toolbar .label {
-                display: none;
-            }
-
-            canvas {
-                max-height: 45vh;
-            }
-        }
-    </style>
-</head>
-<body>
-<div class="app">
-    <aside>
+    <meta
+      content="Recolour real airsoft gear from three angles and see what matches before you buy."
+      name="description"
+    />
+    <meta content="#15171a" name="theme-color" />
+    <meta content="Loadout Builder" property="og:title" />
+    <meta
+      content="Recolour real airsoft gear from three angles and see what matches before you buy."
+      property="og:description"
+    />
+    <meta content="website" property="og:type" />
+    <meta
+      content="https://filipraic.github.io/loadout-builder/"
+      property="og:url"
+    />
+    <meta
+      content="https://filipraic.github.io/loadout-builder/assets/social-preview.png"
+      property="og:image"
+    />
+    <meta content="summary_large_image" name="twitter:card" />
+    <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="css/base.css" rel="stylesheet" />
+    <link href="css/layout.css" rel="stylesheet" />
+    <link href="css/gear.css" rel="stylesheet" />
+    <link href="css/feedback.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="app">
+      <aside>
         <div class="brand">
-            <img alt="" src="assets/favicon.svg">
-            <h1>Loadout Builder</h1>
+          <img alt="" src="assets/favicon.svg" />
+          <h1>Loadout Builder</h1>
         </div>
-        <p class="sub">Pick a colour or pattern for each item. Shading comes from the photo.</p>
+        <p class="sub">
+          Pick a colour or pattern for each item. Shading comes from the photo.
+        </p>
 
         <h2>Presets</h2>
         <div class="presets" id="presets"></div>
@@ -667,105 +48,249 @@
         <div class="items" id="items"></div>
 
         <div class="picker">
-            <h3 id="pickerTitle">Pants</h3>
-            <div class="patterns" id="patterns"></div>
-            <div class="solids" id="solids"></div>
-            <div class="row">Custom colour <input id="customColor" type="color"></div>
-            <div class="row" id="scaleRow">Pattern size <input id="itemScale" max="2.5" min="0.4" step="0.05"
-                                                               type="range" value="1"><span class="v" id="itemScaleVal">1.00×</span>
-            </div>
-            <div class="btns">
-                <button class="btn" id="applyAll">Apply to all items</button>
-                <button class="btn" id="keepOriginal">Keep original</button>
-                <label class="btn">+ Add pattern image<input accept="image/*" id="upload" multiple type="file"></label>
-            </div>
+          <h3 id="pickerTitle">Pants</h3>
+          <div class="patterns" id="patterns"></div>
+          <div class="solids" id="solids"></div>
+          <div class="row">
+            Custom colour <input id="customColor" type="color" />
+          </div>
+          <div class="row" id="scaleRow">
+            Pattern size
+            <input
+              id="itemScale"
+              max="2.5"
+              min="0.4"
+              step="0.05"
+              type="range"
+              value="1"
+            /><span class="v" id="itemScaleVal">1.00×</span>
+          </div>
+          <div class="btns">
+            <button class="btn" id="applyAll">Apply to all items</button>
+            <button class="btn" id="keepOriginal">Keep original</button>
+            <label class="btn"
+              >+ Add pattern image<input
+                accept="image/*"
+                id="upload"
+                multiple
+                type="file"
+            /></label>
+          </div>
         </div>
 
         <h2>Rendering</h2>
-        <div class="row">Global pattern size <input id="globalScale" max="2.5" min="0.4" step="0.05" type="range"
-                                                    value="1"></div>
-        <div class="row">Scene lighting <input id="exposure" max="1.3" min="0.35" step="0.01" type="range" value="0.7">
+        <div class="row">
+          Global pattern size
+          <input
+            id="globalScale"
+            max="2.5"
+            min="0.4"
+            step="0.05"
+            type="range"
+            value="1"
+          />
         </div>
-        <div class="row">Match photo colour <input id="grade" max="1" min="0" step="0.05" type="range" value="0.5">
+        <div class="row">
+          Scene lighting
+          <input
+            id="exposure"
+            max="1.3"
+            min="0.35"
+            step="0.01"
+            type="range"
+            value="0.7"
+          />
         </div>
-        <div class="row">Fold warp <input id="warp" max="40" min="0" step="1" type="range" value="14"></div>
+        <div class="row">
+          Match photo colour
+          <input
+            id="grade"
+            max="1"
+            min="0"
+            step="0.05"
+            type="range"
+            value="0.5"
+          />
+        </div>
+        <div class="row">
+          Fold warp
+          <input id="warp" max="40" min="0" step="1" type="range" value="14" />
+        </div>
 
         <div class="horizontal-divider"></div>
         <div class="note">
-            <p>All patterns are photos or scans of real fabric (<a
-                    href="https://github.com/FilipRaic/loadout-builder/blob/master/assets/patterns/CREDITS.md"
-                    rel="noopener" target="_blank">credits</a>).
-            </p>
-            <p>Patterns you add must be seamless (tileable) images and are kept for this session only.</p>
-            <p>Missing a pattern? <a href="#" id="requestPattern">Request it.</a></p>
+          <p>
+            All patterns are photos or scans of real fabric (<a
+              href="https://github.com/FilipRaic/loadout-builder/blob/master/assets/patterns/CREDITS.md"
+              rel="noopener"
+              target="_blank"
+              >credits</a
+            >).
+          </p>
+          <p>
+            Patterns you add must be seamless (tileable) images and are kept for
+            this session only.
+          </p>
+          <p>
+            Missing a pattern? <a href="#" id="requestPattern">Request it.</a>
+          </p>
         </div>
-    </aside>
-    <main>
+      </aside>
+      <main>
         <div class="toolbar">
-            <button class="btn" id="random">Randomize</button>
-            <button class="btn" id="compare" title="Hold to see the original photo">Hold: original</button>
-            <span class="spacer"></span>
-            <button aria-label="Feedback" class="btn" id="feedback" title="Report a bug or suggest an idea">
-                <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"
-                     stroke-linejoin="round">
-                    <path d="M2.5 3h11v8h-6l-3 2.5V11h-2z"/>
-                </svg>
-                <span class="label">Feedback</span></button>
-            <a aria-label="GitHub repository" class="btn" href="https://github.com/FilipRaic/loadout-builder"
-               id="github" rel="noopener" target="_blank"
-               title="View the source on GitHub">
-                <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                </svg>
-                <span class="label">GitHub</span></a>
-            <button class="btn" id="share">Copy share link</button>
-            <button class="btn primary" id="export">Export PNG</button>
+          <button class="btn" id="random">Randomize</button>
+          <button
+            class="btn"
+            id="compare"
+            title="Hold to see the original photo"
+          >
+            Hold: original
+          </button>
+          <span class="spacer"></span>
+          <button
+            aria-label="Feedback"
+            class="btn"
+            id="feedback"
+            title="Report a bug or suggest an idea"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            >
+              <path d="M2.5 3h11v8h-6l-3 2.5V11h-2z" />
+            </svg>
+            <span class="label">Feedback</span>
+          </button>
+          <a
+            aria-label="GitHub repository"
+            class="btn"
+            href="https://github.com/FilipRaic/loadout-builder"
+            id="github"
+            rel="noopener"
+            target="_blank"
+            title="View the source on GitHub"
+          >
+            <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+              />
+            </svg>
+            <span class="label">GitHub</span></a
+          >
+          <button class="btn" id="share">Copy share link</button>
+          <button class="btn primary" id="export">Export PNG</button>
         </div>
         <div class="stage">
-            <span class="loading">Loading…</span>
-            <canvas id="view"></canvas>
+          <span class="loading">Loading…</span>
+          <canvas id="view"></canvas>
         </div>
         <div hidden id="error"></div>
-    </main>
-</div>
-<div aria-live="polite" class="toast" id="toast" role="status"></div>
-<dialog aria-labelledby="fbTitle" id="feedbackDlg">
-    <form id="feedbackForm" method="dialog">
+      </main>
+    </div>
+    <div aria-live="polite" class="toast" id="toast" role="status"></div>
+    <dialog aria-labelledby="fbTitle" id="feedbackDlg">
+      <form id="feedbackForm" method="dialog">
         <h3 id="fbTitle">Send feedback</h3>
-        <p class="sub">Found a bug, want a pattern or have an idea? Let me know.</p>
+        <p class="sub">
+          Found a bug, want a pattern or have an idea? Let me know.
+        </p>
         <fieldset class="kinds">
-            <legend hidden>Type</legend>
-            <label><input checked name="kind" type="radio" value="bug"><span>Bug</span></label>
-            <label><input name="kind" type="radio" value="idea"><span>Idea</span></label>
-            <label><input name="kind" type="radio" value="pattern"><span>Pattern request</span></label>
-            <label><input name="kind" type="radio" value="other"><span>Other</span></label>
+          <legend hidden>Type</legend>
+          <label
+            ><input checked name="kind" type="radio" value="bug" /><span
+              >Bug</span
+            ></label
+          >
+          <label
+            ><input name="kind" type="radio" value="idea" /><span
+              >Idea</span
+            ></label
+          >
+          <label
+            ><input name="kind" type="radio" value="pattern" /><span
+              >Pattern request</span
+            ></label
+          >
+          <label
+            ><input name="kind" type="radio" value="other" /><span
+              >Other</span
+            ></label
+          >
         </fieldset>
-        <label class="field">Summary
-            <input autocomplete="off" maxlength="120" name="title" placeholder="One line" required></label>
-        <label class="field">Details
-            <textarea name="body" placeholder="What happened, or what would you like to see?"
-                      rows="5"></textarea></label>
-        <label class="check"><input checked name="loadout" type="checkbox"> Include a link to my current loadout</label>
+        <label class="field"
+          >Summary
+          <input
+            autocomplete="off"
+            maxlength="120"
+            name="title"
+            placeholder="One line"
+            required
+        /></label>
+        <label class="field"
+          >Details
+          <textarea
+            name="body"
+            placeholder="What happened, or what would you like to see?"
+            rows="5"
+          ></textarea>
+        </label>
+        <label class="check"
+          ><input checked name="loadout" type="checkbox" /> Include a link to my
+          current loadout</label
+        >
         <fieldset class="via">
-            <legend>Send via</legend>
-            <div class="seg">
-                <label><input checked name="via" type="radio" value="email"><span>Email</span></label>
-                <label><input name="via" type="radio" value="github"><span>GitHub issue</span></label>
-            </div>
+          <legend>Send via</legend>
+          <div class="seg">
+            <label
+              ><input checked name="via" type="radio" value="email" /><span
+                >Email</span
+              ></label
+            >
+            <label
+              ><input name="via" type="radio" value="github" /><span
+                >GitHub issue</span
+              ></label
+            >
+          </div>
         </fieldset>
-        <label class="field" id="fbEmailField">Your email <span
-                class="opt">(optional, only if you'd like a reply)</span>
-            <input autocomplete="email" name="email" placeholder="you@example.com" type="email"></label>
-        <input aria-hidden="true" autocomplete="off" class="honey" name="_honey" tabindex="-1">
+        <label class="field" id="fbEmailField"
+          >Your email
+          <span class="opt">(optional, only if you'd like a reply)</span>
+          <input
+            autocomplete="email"
+            name="email"
+            placeholder="you@example.com"
+            type="email"
+        /></label>
+        <input
+          aria-hidden="true"
+          autocomplete="off"
+          class="honey"
+          name="_honey"
+          tabindex="-1"
+        />
         <p class="note" id="fbStatus" role="status"></p>
         <div class="dlg-btns">
-            <button class="btn" id="fbCancel" type="button">Cancel</button>
-            <button class="btn primary" id="fbSend" type="submit">Send</button>
+          <button class="btn" id="fbCancel" type="button">Cancel</button>
+          <button class="btn primary" id="fbSend" type="submit">Send</button>
         </div>
-    </form>
-</dialog>
-<script src="js/assets.js"></script>
-<script src="js/renderer.js"></script>
-<script src="js/app.js"></script>
-</body>
+      </form>
+    </dialog>
+    <!-- Plain scripts, not ES modules, so the page also works opened straight from disk (file://). Order matters. -->
+    <script src="js/assets.js"></script>
+    <script src="js/renderer/shaders.js"></script>
+    <script src="js/renderer/renderer.js"></script>
+    <script src="js/core/config.js"></script>
+    <script src="js/core/presets.js"></script>
+    <script src="js/core/state.js"></script>
+    <script src="js/core/share.js"></script>
+    <script src="js/ui/dom.js"></script>
+    <script src="js/ui/panels.js"></script>
+    <script src="js/ui/feedback.js"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>

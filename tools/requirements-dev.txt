@@ -1,0 +1,2 @@
+# Dev-only: formatting and linting (see README > Formatting)
+ruff==0.17.4

@@ -1,4 +1,5 @@
 tools/work/
 __pycache__/
 *.pyc
-.idea
+.idea/
+node_modules/

@@ -1,0 +1,7 @@
+# Python tooling for tools/. Ruff defaults: Black-compatible formatting, 88-char lines.
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+# defaults (pyflakes + pycodestyle errors) plus import sorting
+extend-select = ["I"]

@@ -1,0 +1,12 @@
+{
+  "name": "loadout-builder",
+  "private": true,
+  "description": "Dev tooling only. The site itself has no build step: GitHub Pages serves the repo as-is.",
+  "scripts": {
+    "format": "prettier --write . && python -m ruff check --select I --fix && python -m ruff format",
+    "format:check": "prettier --check . && python -m ruff format --check && python -m ruff check --select I"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10"
+  }
+}

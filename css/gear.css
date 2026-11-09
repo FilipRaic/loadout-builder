@@ -1,0 +1,149 @@
+/* Sidebar controls: presets, gear list and the pattern/colour picker. */
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preset {
+  background: #2a2e33;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 12px;
+}
+
+.preset:hover {
+  border-color: var(--accent);
+}
+
+/* ---------- gear list ---------- */
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.item:hover {
+  background: var(--panel2);
+}
+
+.item.active {
+  background: var(--panel2);
+  border-color: var(--accent);
+}
+
+.item .sw {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.item .val {
+  color: var(--muted);
+  font-size: 12px;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- picker ---------- */
+.picker {
+  background: var(--panel2);
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.picker h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.patterns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.patterns .group {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 6px 0 0;
+  font-weight: 600;
+}
+
+.patterns .group:first-child {
+  margin-top: 0;
+}
+
+.tile {
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.tile .img {
+  display: block;
+  height: 46px;
+}
+
+.tile .cap {
+  display: block;
+  font-size: 10.5px;
+  padding: 3px 4px;
+  background: #111;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.solids {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.chip {
+  aspect-ratio: 1;
+  border-radius: 7px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.tile.on,
+.chip.on {
+  border-color: var(--accent);
+}
+
+input[type="color"] {
+  width: 34px;
+  height: 28px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
