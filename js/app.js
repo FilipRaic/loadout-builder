@@ -116,9 +116,24 @@
     });
   }
 
+  // Opened straight from disk: WebGL refuses local image files, so pull in the
+  // embedded copies (js/assets.js, ~6 MB). The website never downloads this file.
+  function loadEmbeddedAssets() {
+    if (location.protocol !== "file:" || window.LOADOUT_EMBEDDED)
+      return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "js/assets.js";
+      s.onload = resolve;
+      s.onerror = () => reject(new Error("could not load js/assets.js"));
+      document.head.appendChild(s);
+    });
+  }
+
   async function init() {
     const canvas = $("#view");
     try {
+      await loadEmbeddedAssets();
       renderer = new window.LoadoutRenderer(canvas, L.assets, 2);
       await renderer.load();
     } catch (e) {

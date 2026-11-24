@@ -30,12 +30,15 @@
     return { p, u };
   }
 
+  // On file:// the images come from js/assets.js (data URIs keyed by path), because
+  // browsers won't give WebGL local image files. Over http(s) the path is used as-is.
   function loadImage(src) {
+    const embedded = window.LOADOUT_EMBEDDED;
     return new Promise((res, rej) => {
       const im = new Image();
       im.onload = () => res(im);
-      im.onerror = rej;
-      im.src = src;
+      im.onerror = () => rej(new Error("could not load " + src.slice(0, 80)));
+      im.src = (embedded && embedded[src]) || src;
     });
   }
 
@@ -91,21 +94,25 @@
       return t;
     }
 
+    // Every image downloads in parallel; textures are created in the original order.
     async load() {
-      this.angles = [];
-      for (const a of this.assets.angles) {
-        const [base, shade, ...masks] = await Promise.all(
-          [a.base, a.shade, ...a.masks].map(loadImage),
-        );
-        this.angles.push({
-          medians: a.medians,
-          base: this.texture(base),
-          shade: this.texture(shade),
-          masks: masks.map((m) => this.texture(m)),
-        });
-      }
-      for (const p of this.assets.patterns)
-        await this.addPattern(p.id, p.src, p.scale, p.warp);
+      const angleImages = Promise.all(
+        this.assets.angles.map((a) =>
+          Promise.all([a.base, a.shade, ...a.masks].map(loadImage)),
+        ),
+      );
+      const patterns = Promise.all(
+        this.assets.patterns.map((p) =>
+          this.addPattern(p.id, p.src, p.scale, p.warp),
+        ),
+      );
+      this.angles = (await angleImages).map(([base, shade, ...masks], i) => ({
+        medians: this.assets.angles[i].medians,
+        base: this.texture(base),
+        shade: this.texture(shade),
+        masks: masks.map((m) => this.texture(m)),
+      }));
+      await patterns;
     }
 
     // warp: how much the print bends along folds (1 = full; checks and stripes use less)
